@@ -1,0 +1,20 @@
+{% extends  "models/model-page.html" %}
+
+{% block content %}
+    <div align="center">
+        <br>
+        <h3>Upload arquivo</h3>
+        <div class="col col-5 col-sm-5 col-md-4 col-lg-5 col-xs-4 box-gray">
+            <br>
+            <form action="/" method="POST"> {% csrf_token %}
+                <input type="file"  accept=".csv" name="regions" placeholder="Arquivo com as regiões">
+                <input type="file"  accept=".csv" name="athletes" placeholder="Arquivo com os atletas">
+                <button type="submit" class="btn btn-warning btn-block">
+                    Upload dos arquivos
+                </button>
+            </form>
+
+            <br><br>
+        </div>
+    </div>
+{% endblock %}
