@@ -5,7 +5,6 @@ from django.contrib import messages
 from core.models import *
 
 
-
 def upload(request):
     if request.POST:
         athletes = request.FILES['athletes']
