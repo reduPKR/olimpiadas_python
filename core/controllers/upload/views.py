@@ -51,8 +51,8 @@ def region_not_exist(noc):
 def register_country(country):
     Country.objects.create(
             noc=country["NOC"],
-            region=country["region"],
-            notes=country["notes"],
+            name=country["region"],
+            notes=country["notes"]
         )
 
 def register_message(error, message, request):
