@@ -36,9 +36,10 @@ def register_message(error, message, request):
 def save_data(athletes, regions, request):
     save_region(regions, request)
     save_sports(athletes["Sport"], request)
-    save_events(athletes[["Sport", "Event"]])
-    save_city(athletes["City"])
-    save_season(athletes["Season"])
+    save_events(athletes[["Sport", "Event"]], request)
+    save_city(athletes["City"], request)
+    save_season(athletes["Season"], request)
+    save_game(athletes["Year", "Season", "City"], request)
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -83,14 +84,18 @@ def register_sport(sport):
         name=sport
     )
 
-def save_events(event):
+def save_events(event, request):
     df = event.drop_duplicates('Event', keep='first')
 
+    message_except = "Erro ao cadastrar o evento"
     for item in df.iterrows():
         #print("{} {}".format(item[1]["Sport"], item[1]["Event"]))
         if not sport_not_exist(item[1]["Sport"]):
             if event_not_exist(item[1]["Event"]):
-                register_event(item[1]["Event"], item[1]["Sport"])
+                try:
+                    register_event(item[1]["Event"], item[1]["Sport"])
+                except:
+                    register_message(item[1]["Event"], message_except, request)
 
 def event_not_exist(event):
     return Event.objects.filter(name=event).first() == None
@@ -101,12 +106,16 @@ def register_event(event, sport):
         sport= get_sport_by_name(sport)
     )
 
-def save_city(city):
+def save_city(city, request):
     df = city.unique()
 
+    message_except = "Erro ao salvar a cidade"
     for item in df:
         if city_not_exist(item):
-            register_city(item)
+            try:
+                register_city(item)
+            except:
+                register_message(item, message_except, request)
 
 def city_not_exist(city):
     return City.objects.filter(name=city).first() == None
@@ -116,12 +125,16 @@ def register_city(city):
         name=city
     )
 
-def save_season(season):
+def save_season(season, request):
     df = season.unique()
 
+    message_except = "Erro ao cadastrar a temporada"
     for item in df:
         if season_not_exist(item):
-            register_season(item)
+            try:
+                register_season(item)
+            except:
+                register_message(item, message_except, request)
 
 def season_not_exist(season):
     return Season.objects.filter(name=season).first() == None
