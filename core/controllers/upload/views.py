@@ -1,7 +1,8 @@
-import csv, io
+import pandas as pd
 
 from django.shortcuts import render
 from django.contrib import messages
+
 
 
 def upload(request):
@@ -10,11 +11,7 @@ def upload(request):
         regions = request.FILES['regions']
 
         if regions and athletes:
-            with open(athletes, newline='', encoding='utf-8') as f:
-                csv_file = csv.reader(f)
-                for row in csv_file:
-                    print(row)
-
+            save_athletes(athletes)
         else:
             getMessage(regions, athletes, request)
 
@@ -30,3 +27,6 @@ def getMessage(regions, athletes, request):
 
     if athletes is None:
         messages.error(request, "Arquivo nescessário: atlétas")
+
+def save_athletes(athletes):
+    df = pd.read_csv(athletes, ",")
