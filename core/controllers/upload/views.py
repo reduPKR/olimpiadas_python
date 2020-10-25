@@ -38,6 +38,7 @@ def save_data(athletes, regions, request):
     save_sports(athletes["Sport"], request)
     save_events(athletes[["Sport", "Event"]])
     save_city(athletes["City"])
+    save_season(athletes["Season"])
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -113,4 +114,19 @@ def city_not_exist(city):
 def register_city(city):
     City.objects.create(
         name=city
+    )
+
+def save_season(season):
+    df = season.unique()
+
+    for item in df:
+        if season_not_exist(item):
+            register_season(item)
+
+def season_not_exist(season):
+    return Season.objects.filter(name=season).first() == None
+
+def register_season(season):
+    Season.objects.create(
+        name=season
     )
