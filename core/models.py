@@ -70,15 +70,15 @@ class Medal(models.Model):
     class Meta:
         db_table = 'medal'
 
-class GameEvent(models.Model):
+class GameEvents(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'game_event'
 
-class EventParticipants(GameEvent.Model):
-    game_event = models.ForeignKey(Game, on_delete=models.CASCADE)
+class EventParticipant(models.Model):
+    game_event = models.ForeignKey(GameEvents, on_delete=models.CASCADE)
     medal = models.ForeignKey(Medal, on_delete=models.CASCADE, null=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
 
