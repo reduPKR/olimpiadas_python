@@ -11,8 +11,9 @@ def upload(request):
         regions = request.FILES['regions']
 
         if regions and athletes:
-            save_region(regions, request)
-            #save_athletes(athletes)
+            df_regions = pd.read_csv(regions, ",")
+            df_athletes = pd.read_csv(athletes, ",")
+            save_data(df_athletes, df_regions, request)
         else:
             upload_message(regions, athletes, request)
 
@@ -29,20 +30,23 @@ def upload_message(regions, athletes, request):
     if athletes is None:
         messages.error(request, "Arquivo nescessário: atlétas")
 
+def register_message(error, message, request):
+    messages.error(request, "{}: {}".format(message, error))
+
+def save_data(athletes, regions, request):
+    save_region(regions, request)
+    save_sports(athletes["Sport"], request)
+
 def save_region(regions, request):
-    df = pd.read_csv(regions, ",")
-    df.fillna(value="", inplace=True)
+    regions.fillna(value="", inplace=True)
 
     message_except = "Erro ao salvar região"
-    for item in df.iterrows():
+    for item in regions.iterrows():
         if region_not_exist(item[1]["NOC"]):
             try:
                 register_country(item[1])
             except:
                 register_message(item[1]["NOC"], message_except, request)
-
-def save_athletes(athletes):
-    df = pd.read_csv(athletes, ",")
 
 def region_not_exist(noc):
     return Country.objects.filter(noc=noc).first() == None
@@ -54,5 +58,22 @@ def register_country(country):
             notes=country["notes"]
         )
 
-def register_message(error, message, request):
-    messages.error(request, "{}: {}".format(message, error))
+def save_sports(sport, request):
+    sports = sport.unique()
+
+    message_except = "Erro ao cadastrar o esporte"
+    for item in sports:
+        if sport_not_exist(item):
+            try:
+                register_sport(item)
+            except:
+                register_message(item, message_except, request)
+
+def sport_not_exist(sport):
+    return Sport.objects.filter(name=sport).first() == None
+
+def register_sport(sport):
+    Sport.objects.create(
+        name=sport
+    )
+
