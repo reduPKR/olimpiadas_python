@@ -16,8 +16,8 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Tela de upload
 - [X] Mensagem de erro upload 
 - [X] Salvar regiões
-- [ ] Salvar esportes
-- [ ] Salvar eventos
+- [X] Salvar esportes
+- [X] Salvar eventos
 - [ ] Salvar cidades que ocorrem os jogos
 - [ ] Salvar as temporadas
 - [ ] Salvar os jogos
