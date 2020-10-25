@@ -37,7 +37,7 @@ def save_data(athletes, regions, request):
     save_region(regions, request)
     save_sports(athletes["Sport"], request)
     save_events(athletes[["Sport", "Event"]])
-    save_city(athletes[["Sport", "Event"]])
+    save_city(athletes["City"])
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -75,7 +75,7 @@ def sport_not_exist(sport):
     return Sport.objects.filter(name=sport).first() == None
 
 def get_sport_by_name(sport):
-    return Sport.objects.get(name=sport).first()
+    return Sport.objects.get(name=sport)
 
 def register_sport(sport):
     Sport.objects.create(
@@ -101,10 +101,16 @@ def register_event(event, sport):
     )
 
 def save_city(city):
-    df = city.drop_duplicates('City', keep='first')
+    df = city.unique()
 
-    for item in df.iterrows():
-        print(item)
-        # if not sport_not_exist(item[1]["Sport"]):
-        #     if event_not_exist(item[1]["Event"]):
-        #         register_event(item[1]["Event"], item[1]["Sport"])
+    for item in df:
+        if city_not_exist(item):
+            register_city(item)
+
+def city_not_exist(city):
+    return City.objects.filter(name=city).first() == None
+
+def register_city(city):
+    City.objects.create(
+        name=city
+    )

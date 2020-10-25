@@ -10,7 +10,6 @@ class Country(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=60)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'city'

@@ -18,7 +18,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Salvar regiões
 - [X] Salvar esportes
 - [X] Salvar eventos
-- [ ] Salvar cidades que ocorrem os jogos
+- [X] Salvar cidades que ocorrem os jogos
 - [ ] Salvar as temporadas
 - [ ] Salvar os jogos
 - [ ] Salvar os eventos dos jogos
@@ -43,4 +43,5 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 
 ## Modelo do banco de dados  
 
-![image](https://user-images.githubusercontent.com/56879793/97113975-8a0a4380-16cc-11eb-8794-9111642b557b.png)
+![image](https://user-images.githubusercontent.com/56879793/97120482-05ccb600-16f6-11eb-810b-73458f28e210.png)
+
