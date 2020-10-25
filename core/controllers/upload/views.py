@@ -11,7 +11,8 @@ def upload(request):
         regions = request.FILES['regions']
 
         if regions and athletes:
-            save_athletes(athletes)
+            save_region(regions)
+            #save_athletes(athletes)
         else:
             getMessage(regions, athletes, request)
 
@@ -28,5 +29,10 @@ def getMessage(regions, athletes, request):
     if athletes is None:
         messages.error(request, "Arquivo nescessário: atlétas")
 
+def save_region(regions):
+    df = pd.read_csv(regions, ",")
+
 def save_athletes(athletes):
     df = pd.read_csv(athletes, ",")
+
+
