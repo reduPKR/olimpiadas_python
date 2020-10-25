@@ -49,13 +49,6 @@ class Game(models.Model):
     class Meta:
         db_table = 'game'
 
-class AthleteGame(models.Model):
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'athlete_game'
-
 class Event(models.Model):
     name = models.CharField(max_length=100)
 
