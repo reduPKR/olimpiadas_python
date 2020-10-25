@@ -3,6 +3,7 @@ from django.urls import path
 from django.views.generic import RedirectView
 
 from core.controllers.pages import views as page
+from core.controllers.upload import views as upload
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,5 +12,5 @@ urlpatterns = [
     path('home/', page.home),
     path('upload/', page.upload),
 
-    
+    path('upload/submit', upload.upload),
 ]

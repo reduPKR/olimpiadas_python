@@ -6,15 +6,20 @@
         <h3>Upload arquivo</h3>
         <div class="col col-5 col-sm-5 col-md-4 col-lg-5 col-xs-4 box-gray">
             <br>
-            <form action="/" method="POST"> {% csrf_token %}
-                <input type="file"  accept=".csv" name="regions" placeholder="Arquivo com as regiões">
-                <input type="file"  accept=".csv" name="athletes" placeholder="Arquivo com os atletas">
+            {% for message in messages %}
+                <span style="color: red;">* Erro: {{ message }}</span><br>
+            {% endfor %}
+            <form action="/upload/submit" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                <strong>Arquivo com os atlétas:  </strong><br>
+                <input type="file"  accept=".csv" name="athletes" >
+                <br><br>
+                <strong>Arquivo com as regiões:  </strong><br>
+                <input type="file"  accept=".csv" name="regions">
+                <br><br>
                 <button type="submit" class="btn btn-warning btn-block">
                     Upload dos arquivos
                 </button>
-            </form>
-
-            <br><br>
+            </form><br>
         </div>
     </div>
 {% endblock %}
