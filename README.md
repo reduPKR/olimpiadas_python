@@ -12,7 +12,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 
 ## Ações tomadas com Nan
 **Para textos:** Foram subistituidos por string vazia
-**Para dados numéricos:** Foram substituidos pela media geral.
+**Para dados numéricos:** Foram substituidos pela media da coluna.
 
 ## Tarefas
 - [X] Home page
@@ -25,7 +25,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Salvar as temporadas
 - [X] Salvar os jogos
 - [X] Salvar os eventos dos jogos
-- [ ] Salvar atleta
+- [X] Salvar atleta
 - [ ] Salvar os atletas participantes
 - [ ] Reduzir acessos ao banco de dados
 - [X] Readme.md
