@@ -34,14 +34,14 @@ def register_message(error, message, request):
     messages.error(request, "{}: {}".format(message, error))
 
 def save_data(athletes, regions, request):
-    # save_region(regions, request)
-    # save_sports(athletes["Sport"], request)
-    # save_events(athletes[["Sport", "Event"]], request)
+    save_region(regions, request)
+    save_sports(athletes["Sport"], request)
+    save_events(athletes[["Sport", "Event"]], request)
     save_city(athletes["City"], request)
-    # save_season(athletes["Season"], request)
-    # save_game(athletes[["Year", "Season", "City"]], request)
-    # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
-    # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
+    save_season(athletes["Season"], request)
+    save_game(athletes[["Year", "Season", "City"]], request)
+    save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -56,6 +56,9 @@ def save_region(regions, request):
 
 def region_not_exist(noc):
     return Country.objects.filter(noc=noc).first() == None
+
+def get_region_by_noc(noc):
+    return Country.objects.get(noc=noc)
 
 def register_country(country):
     Country.objects.create(
@@ -198,7 +201,7 @@ def save_game_event(game_event, request):
             if not game_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"]):
                 if game_event_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
                     try:
-                        (item[1]["Year"], item[1]["Season"], item[1]["City"])
+                        register_game_event(item[1]["Year"], item[1]["Season"], item[1]["City"])
                     except:
                         register_message(item[1]["Event"], message_except, request)
 
@@ -215,6 +218,42 @@ def register_game_event(year, season, city, event):
     )
 
 def save_athlete(athlete, request):
-    print(athlete.count())
     df = athlete.drop_duplicates("ID", keep='first')
-    print(df.count())
+    df[['Name', 'Sex',]].fillna(value="N", inplace=True)
+    df['Height'].fillna(value=df['Height'].mean(), inplace=True)
+    df['Weight'].fillna(value=df['Weight'].mean(), inplace=True)
+    print("*"*80)
+
+
+    message_except = "Erro ao cadastrar o atleta "
+    for item in df.iterrows():
+        if not region_not_exist(item[1]["NOC"]):
+            if not sport_not_exist(item[1]["Sport"]):
+                if athlete_not_exist(item[1]["Name"],item[1]["Sex"],
+                                     item[1]["Height"],item[1]["Weight"],
+                                     item[1]["NOC"], item[1]["Sport"]):
+                    try:
+                        register_atlete(item[1]["Name"],item[1]["Sex"],item[1]["Height"],
+                                        item[1]["Weight"],item[1]["NOC"], item[1]["Sport"])
+                    except:
+                        register_message(item[1]["ID"]+" "+item[1]["Name"], message_except, request)
+
+def athlete_not_exist(name, sex, height, weight, noc, sport):
+    return Athlete.objects.filter(
+        name= name,
+        sex=sex,
+        height= height,
+        weight= weight,
+        team= get_region_by_noc(noc),
+        sport= get_sport_by_name(sport)
+    ).first() == None
+
+def register_atlete(name, sex, height, weight, noc, sport):
+    Athlete.objects.create(
+        name= name,
+        sex=sex,
+        height= height,
+        weight= weight,
+        team= get_region_by_noc(noc),
+        sport= get_sport_by_name(sport)
+    )

@@ -10,6 +10,9 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Url Home-page:** 127.0.0.1:8000 | 127.0.0.1:8000/ | 127.0.0.1:8000/home/  
 **Url Upload dos arquivos:** 127.0.0.1:8000/upload/  
 
+## Ações tomadas com Nan
+**Para textos:** Foram subistituidos por string vazia
+**Para dados numéricos:** Foram substituidos pela media geral.
 
 ## Tarefas
 - [X] Home page
@@ -24,6 +27,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Salvar os eventos dos jogos
 - [ ] Salvar atleta
 - [ ] Salvar os atletas participantes
+- [ ] Reduzir acessos ao banco de dados
 - [X] Readme.md
 - [X] Testes templates/rotas
 - [ ] Testes create
@@ -43,5 +47,4 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 
 ## Modelo do banco de dados  
 
-![image](https://user-images.githubusercontent.com/56879793/97120482-05ccb600-16f6-11eb-810b-73458f28e210.png)
-
+![image](https://user-images.githubusercontent.com/56879793/97129878-b6e74680-171e-11eb-992d-798cbc177b9a.png)
