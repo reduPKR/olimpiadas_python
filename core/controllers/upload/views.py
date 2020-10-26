@@ -37,7 +37,7 @@ def save_data(athletes, regions, request):
     save_region(regions, request)
     save_sports(athletes["Sport"], request)
     save_events(athletes[["Sport", "Event"]], request)
-    # save_city(athletes["City"], request)
+    save_city(athletes["City"], request)
     # save_season(athletes["Season"], request)
     # save_game(athletes[["Year", "Season", "City"]], request)
     # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
@@ -140,7 +140,6 @@ def save_events(event, request):
                 except:
                     register_message(item[1]["Event"], message_except, request)
 
-
 def get_registered_events():
     events = Event.objects.all()
     return pd.DataFrame(list(events.values()))
@@ -168,20 +167,37 @@ def register_event(event, sport):
 
 def save_city(city, request):
     df = city.unique()
+    registered_city = get_registered_city()
+    print(registered_city)
 
     message_except = "Erro ao salvar a cidade"
     for item in df:
-        if city_not_exist(item):
+        if city_not_exist(item, registered_city):
             try:
                 register_city(item)
+                registered_city = update_registered_city(registered_city, item)
+                print(registered_city)
             except:
                 register_message(item, message_except, request)
 
-def city_not_exist(city):
-    return City.objects.filter(name=city).first() == None
+def get_registered_city():
+    city = City.objects.all()
+    return pd.DataFrame(list(city.values()))
+
+def city_not_exist(city, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[registered["name"] == city]) == 0
 
 def get_city_by_name(city):
     return City.objects.get(name=city)
+
+def update_registered_city(registered, data):
+    if len(registered) == 0:
+        return get_registered_city()
+    else:
+        df = pd.DataFrame([[0, data]], [0], ["id", "name"])
+        return pd.concat([registered, df])
 
 def register_city(city):
     City.objects.create(
