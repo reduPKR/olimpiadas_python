@@ -253,7 +253,7 @@ def athlete_not_exist(name, sex, height, weight, noc, sport):
         sport= get_sport_by_name(sport)
     ).first() == None
 
-def get_athlete_not_exist(name, sex, height, weight, noc, sport):
+def get_athlete(name, sex, height, weight, noc, sport):
     return Athlete.objects.get(
         name= name,
         sex=sex,
@@ -277,6 +277,7 @@ def save_event_participants(athlete, request):
     athlete[['Name', 'Sex', 'Medal']].fillna(value="", inplace=True)
     athlete['Height'].fillna(value=athlete['Height'].mean(), inplace=True)
     athlete['Weight'].fillna(value=athlete['Weight'].mean(), inplace=True)
+    athlete['Age'].fillna(value=athlete['Age'].mean(), inplace=True)
     athlete.sort_values("Name", inplace=True)
 
     message_except = "Erro ao cadastrar o atleta no evento"
@@ -285,23 +286,30 @@ def save_event_participants(athlete, request):
             if not sport_not_exist(item[1]["Sport"]):
                 if not game_event_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
                     if not athlete_not_exist(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"],  item[1]["NOC"], item[1]["Sport"]):
-                        if event_participant_not_exist(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"],  item[1]["NOC"], item[1]["Sport"], item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
+                        if event_participant_not_exist(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"], item[1]["Age"],  item[1]["NOC"], item[1]["Sport"], item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
                             try:
-                                register_event_participants(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"],
+                                register_event_participants(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"], item[1]["Age"],
                                                 item[1]["NOC"], item[1]["Sport"], item[1]["Year"], item[1]["Season"],
-                                                item[1]["City"], item[1]["Event"])
+                                                item[1]["City"], item[1]["Event"], item[1]["Medal"])
                             except:
                                 register_message(item[1]["Name"]+" "+item[1]["Event"], message_except, request)
 
-
-def event_participant_not_exist(name, sex, height, weight,  noc, sport, year, season, city, event):
+def event_participant_not_exist(name, sex, height, weight, age,  noc, sport, year, season, city, event):
     return EventParticipant.objects.filter(
+        age=age,
         game_event=get_game_event_not_exist(year, season, city, event),
-        athlete=get_athlete_not_exist(name, sex, height, weight, noc, sport)
+        athlete=get_athlete(name, sex, height, weight, noc, sport)
     ).first() == None
 
-def register_event_participants(name, sex, height, weight, noc, sport, year, season, city, event):
+def register_event_participants(name, sex, height, weight, age, noc, sport, year, season, city, event, medal):
     EventParticipant.objects.create(
+        age= age,
         game_event=get_game_event_not_exist(year, season, city, event),
-        athlete=get_athlete_not_exist(name, sex, height, weight, noc, sport)
+        athlete=get_athlete(name, sex, height, weight, noc, sport),
+        medal=get_medal(medal)
+    )
+
+def get_medal(medal):
+    return Medal.objects.get(
+        name= medal
     )
