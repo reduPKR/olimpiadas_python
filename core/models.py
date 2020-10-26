@@ -23,7 +23,6 @@ class Sport(models.Model):
 
 class Athlete(models.Model):
     name = models.CharField(max_length=100)
-    age = models.IntegerField()
     height = models.IntegerField()
     weight = models.IntegerField()
     sex = models.CharField(max_length=1)
@@ -71,6 +70,8 @@ class GameEvents(models.Model):
         db_table = 'game_event'
 
 class EventParticipant(models.Model):
+    age = models.IntegerField()
+
     game_event = models.ForeignKey(GameEvents, on_delete=models.CASCADE)
     medal = models.ForeignKey(Medal, on_delete=models.CASCADE, null=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
