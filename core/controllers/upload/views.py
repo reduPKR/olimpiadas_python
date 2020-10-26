@@ -37,26 +37,41 @@ def save_data(athletes, regions, request):
     save_region(regions, request)
     save_sports(athletes["Sport"], request)
     save_events(athletes[["Sport", "Event"]], request)
-    save_city(athletes["City"], request)
-    save_season(athletes["Season"], request)
-    save_game(athletes[["Year", "Season", "City"]], request)
-    save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
-    save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
-    save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
+    # save_city(athletes["City"], request)
+    # save_season(athletes["Season"], request)
+    # save_game(athletes[["Year", "Season", "City"]], request)
+    # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
+    # save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
+    registered_regions = get_registered_regions()
 
     message_except = "Erro ao salvar região"
     for item in regions.iterrows():
-        if region_not_exist(item[1]["NOC"]):
+        if region_not_exist(item[1]["NOC"], registered_regions):
             try:
                 register_country(item[1])
+                registered_regions = update_registered_regions(registered_regions, item[1])
             except:
                 register_message(item[1]["NOC"], message_except, request)
 
-def region_not_exist(noc):
-    return Country.objects.filter(noc=noc).first() == None
+def get_registered_regions():
+    regions = Country.objects.all()
+    return pd.DataFrame(list(regions.values()))
+
+def region_not_exist(noc, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[registered["noc"] == noc]) == 0
+
+def update_registered_regions(registered, data):
+    if len(registered) == 0:
+        return get_registered_regions()
+    else:
+        df = pd.DataFrame([[ 0,data["NOC"], data["region"], data["notes"]]], [0], ["id", "noc", "region", "notes"])
+        return pd.concat([registered, df])
 
 def get_region_by_noc(noc):
     return Country.objects.get(noc=noc)
@@ -70,20 +85,38 @@ def register_country(country):
 
 def save_sports(sport, request):
     df = sport.unique()
+    registered_sports = get_registered_sports()
 
     message_except = "Erro ao cadastrar o esporte"
     for item in df:
-        if sport_not_exist(item):
+        if sport_not_exist(item, registered_sports):
             try:
                 register_sport(item)
+                registered_sports = update_registered_sports(registered_sports, item)
             except:
                 register_message(item, message_except, request)
 
-def sport_not_exist(sport):
-    return Sport.objects.filter(name=sport).first() == None
+def get_registered_sports():
+    sports = Sport.objects.all()
+    return pd.DataFrame(list(sports.values()))
+
+def sport_not_exist(sport,  registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[registered["name"] == sport]) == 0
+
+def update_registered_sports(registered, data):
+    if len(registered) == 0:
+        return get_registered_sports()
+    else:
+        df = pd.DataFrame([[0, data]], [0], ["id", "name"])
+        return pd.concat([registered, df])
 
 def get_sport_by_name(sport):
     return Sport.objects.get(name=sport)
+
+def get_sport_by_name_in_dataframe(sport, registered):
+    return registered.loc[registered["name"] == sport]["id"].values
 
 def register_sport(sport):
     Sport.objects.create(
@@ -92,22 +125,40 @@ def register_sport(sport):
 
 def save_events(event, request):
     df = event.drop_duplicates('Event', keep='first')
+    registered_sports = get_registered_sports()
+    registered_events = get_registered_events()
 
     message_except = "Erro ao cadastrar o evento"
     for item in df.iterrows():
-        #print("{} {}".format(item[1]["Sport"], item[1]["Event"]))
-        if not sport_not_exist(item[1]["Sport"]):
-            if event_not_exist(item[1]["Event"]):
+        if not sport_not_exist(item[1]["Sport"], registered_sports):
+            if event_not_exist(item[1]["Event"], registered_events):
                 try:
                     register_event(item[1]["Event"], item[1]["Sport"])
+                    sport = get_sport_by_name_in_dataframe(item[1]["Sport"], registered_sports)
+                    print(sport)
+                    registered_events = update_registered_event(registered_events, sport, item[1]["Event"])
                 except:
                     register_message(item[1]["Event"], message_except, request)
 
-def event_not_exist(event):
-    return Event.objects.filter(name=event).first() == None
+
+def get_registered_events():
+    events = Event.objects.all()
+    return pd.DataFrame(list(events.values()))
+
+def event_not_exist(event, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[registered["name"] == event]) == 0
 
 def get_event_by_name(event):
     return Event.objects.get(name=event)
+
+def update_registered_event(registered, sport, data):
+    if len(registered) == 0:
+        return get_registered_events()
+    else:
+        df = pd.DataFrame([[0, data, sport]], [0], ["id", "name", "sport_id"])
+        return pd.concat([registered, df])
 
 def register_event(event, sport):
     Event.objects.create(
