@@ -40,6 +40,7 @@ def save_data(athletes, regions, request):
     save_city(athletes["City"], request)
     save_season(athletes["Season"], request)
     save_game(athletes[["Year", "Season", "City"]], request)
+    save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -99,6 +100,9 @@ def save_events(event, request):
 
 def event_not_exist(event):
     return Event.objects.filter(name=event).first() == None
+
+def get_event_by_name(event):
+    return Event.objects.get(name=event)
 
 def register_event(event, sport):
     Event.objects.create(
@@ -170,9 +174,41 @@ def game_not_exist(year, season, city):
         city=get_city_by_name(city)
     ).first() == None
 
+def get_game_by_data(year, season, city):
+    return Game.objects.get(
+        year=year,
+        season= get_season_by_name(season),
+        city=get_city_by_name(city)
+    )
+
 def register_game(year, season, city):
     Game.objects.create(
         year=year,
         season= get_season_by_name(season),
         city= get_city_by_name(city)
+    )
+
+def save_game_event(game_event, request):
+    df = game_event.drop_duplicates(["Year", "Season", "City", "Event"], keep='first')
+
+    message_except = "Erro ao cadastrar evento nos jogos "
+    for item in df.iterrows():
+        if not event_not_exist(item[1]["Event"]):
+            if not game_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"]):
+                if game_event_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
+                    try:
+                        (item[1]["Year"], item[1]["Season"], item[1]["City"])
+                    except:
+                        register_message(item[1]["Event"], message_except, request)
+
+def game_event_not_exist(year, season, city, event):
+    return GameEvents.objects.filter(
+        game=get_game_by_data(year, season, city),
+        event=get_event_by_name(event)
+    ).first() == None
+
+def register_game_event(year, season, city, event):
+    GameEvents.objects.create(
+        game=get_game_by_data(year, season, city),
+        event=get_event_by_name(event)
     )

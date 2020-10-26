@@ -21,7 +21,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Salvar cidades que ocorrem os jogos
 - [X] Salvar as temporadas
 - [X] Salvar os jogos
-- [ ] Salvar os eventos dos jogos
+- [X] Salvar os eventos dos jogos
 - [ ] Salvar atleta
 - [ ] Salvar os atletas participantes
 - [X] Readme.md
