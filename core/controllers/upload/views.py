@@ -39,7 +39,7 @@ def save_data(athletes, regions, request):
     save_events(athletes[["Sport", "Event"]], request)
     save_city(athletes["City"], request)
     save_season(athletes["Season"], request)
-    save_game(athletes["Year", "Season", "City"], request)
+    save_game(athletes[["Year", "Season", "City"]], request)
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -120,6 +120,9 @@ def save_city(city, request):
 def city_not_exist(city):
     return City.objects.filter(name=city).first() == None
 
+def get_city_by_name(city):
+    return City.objects.get(name=city)
+
 def register_city(city):
     City.objects.create(
         name=city
@@ -139,7 +142,37 @@ def save_season(season, request):
 def season_not_exist(season):
     return Season.objects.filter(name=season).first() == None
 
+def get_season_by_name(season):
+    return Season.objects.get(name=season)
+
 def register_season(season):
     Season.objects.create(
         name=season
+    )
+
+def save_game(game, request):
+    df = game.drop_duplicates(["Year", "Season", "City"], keep='first')
+
+    message_except = "Erro ao cadastrar o jogo "
+    for item in df.iterrows():
+        if not season_not_exist(item[1]["Season"]):
+            if not city_not_exist(item[1]["City"]):
+                if game_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"]):
+                    try:
+                        register_game(item[1]["Year"], item[1]["Season"], item[1]["City"])
+                    except:
+                        register_message(item[1]["Year"]+" "+item[1]["Season"], message_except, request)
+
+def game_not_exist(year, season, city):
+    return Game.objects.filter(
+        year=year,
+        season= get_season_by_name(season),
+        city=get_city_by_name(city)
+    ).first() == None
+
+def register_game(year, season, city):
+    Game.objects.create(
+        year=year,
+        season= get_season_by_name(season),
+        city= get_city_by_name(city)
     )
