@@ -34,13 +34,14 @@ def register_message(error, message, request):
     messages.error(request, "{}: {}".format(message, error))
 
 def save_data(athletes, regions, request):
-    save_region(regions, request)
-    save_sports(athletes["Sport"], request)
-    save_events(athletes[["Sport", "Event"]], request)
+    # save_region(regions, request)
+    # save_sports(athletes["Sport"], request)
+    # save_events(athletes[["Sport", "Event"]], request)
     save_city(athletes["City"], request)
-    save_season(athletes["Season"], request)
-    save_game(athletes[["Year", "Season", "City"]], request)
-    save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    # save_season(athletes["Season"], request)
+    # save_game(athletes[["Year", "Season", "City"]], request)
+    # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -212,3 +213,8 @@ def register_game_event(year, season, city, event):
         game=get_game_by_data(year, season, city),
         event=get_event_by_name(event)
     )
+
+def save_athlete(athlete, request):
+    print(athlete.count())
+    df = athlete.drop_duplicates("ID", keep='first')
+    print(df.count())
