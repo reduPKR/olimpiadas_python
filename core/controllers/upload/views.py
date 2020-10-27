@@ -212,7 +212,7 @@ def update_registered_city(registered, data):
         return pd.concat([registered, df])
 
 def register_city(city):
-    City.objects.create(
+    return City.objects.create(
         name=city
     )
 

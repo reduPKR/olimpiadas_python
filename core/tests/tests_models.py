@@ -22,10 +22,14 @@ class uploadTests(TestCase):
             sport=sport
         )
 
+        City.objects.create(
+            name= "Barcelona"
+        )
+
     def test_upload_create_region(self):
         df = pd.DataFrame([["BRA", "Brazil", ""]], [0], ["NOC", "region", "notes"])
         country = upload.register_country(df)
-        self.assertEqual(country.name, "Brazil")
+        self.assertEqual(country.id, 2)
 
     def test_upload_get_region_by_noc(self):
         region = upload.get_region_by_noc("AFG")
@@ -37,7 +41,7 @@ class uploadTests(TestCase):
 
     def test_upload_get_sport_by_name(self):
         sport = upload.get_sport_by_name("Basketball")
-        self.assertEqual(sport.name, "Basketball")
+        self.assertEqual(sport.id, 1)
 
     def test_upload_get_event_by_id(self):
         event = upload.get_event_by_id(1)
@@ -49,4 +53,12 @@ class uploadTests(TestCase):
 
     def test_upload_create_event(self):
         event = upload.register_event("Basketball Women's Basketball", "Basketball")
-        self.assertEqual(event.name, "Basketball Women's Basketball")
+        self.assertEqual(event.id, 2)
+
+    def test_upload_get_city_by_name(self):
+        city = upload.get_city_by_name("Barcelona")
+        self.assertEqual(city.id, 1)
+
+    def test_upload_create_city(self):
+        city = upload.register_city("London")
+        self.assertEqual(city.id, 2)
