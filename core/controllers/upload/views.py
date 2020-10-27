@@ -38,7 +38,7 @@ def save_data(athletes, regions, request):
     save_sports(athletes["Sport"], request)
     save_events(athletes[["Sport", "Event"]], request)
     save_city(athletes["City"], request)
-    # save_season(athletes["Season"], request)
+    save_season(athletes["Season"], request)
     # save_game(athletes[["Year", "Season", "City"]], request)
     # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
     # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
@@ -168,7 +168,6 @@ def register_event(event, sport):
 def save_city(city, request):
     df = city.unique()
     registered_city = get_registered_city()
-    print(registered_city)
 
     message_except = "Erro ao salvar a cidade"
     for item in df:
@@ -176,7 +175,6 @@ def save_city(city, request):
             try:
                 register_city(item)
                 registered_city = update_registered_city(registered_city, item)
-                print(registered_city)
             except:
                 register_message(item, message_except, request)
 
@@ -206,20 +204,35 @@ def register_city(city):
 
 def save_season(season, request):
     df = season.unique()
+    registered_season = get_registered_season()
 
     message_except = "Erro ao cadastrar a temporada"
     for item in df:
-        if season_not_exist(item):
+        if season_not_exist(item, registered_season):
             try:
                 register_season(item)
+                registered_season = update_registered_season(registered_season, item)
             except:
                 register_message(item, message_except, request)
 
-def season_not_exist(season):
-    return Season.objects.filter(name=season).first() == None
+def get_registered_season():
+    season = Season.objects.all()
+    return pd.DataFrame(list(season.values()))
+
+def season_not_exist(season, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[registered["name"] == season]) == 0
 
 def get_season_by_name(season):
     return Season.objects.get(name=season)
+
+def update_registered_season(registered, data):
+    if len(registered) == 0:
+        return get_registered_season()
+    else:
+        df = pd.DataFrame([[0, data]], [0], ["id", "name"])
+        return pd.concat([registered, df])
 
 def register_season(season):
     Season.objects.create(
