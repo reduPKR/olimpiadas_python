@@ -7,9 +7,9 @@ from core.models import *
 class uploadTests(TestCase):
     #Aqui vou testar apenas metodos que acessaram DB durante upload
     def setUp(self):
-        Country.objects.create(
-            noc="AFG",
-            name="Afghanistan",
+        country = Country.objects.create(
+            noc="CHN",
+            name="China",
             notes=""
         )
 
@@ -41,14 +41,23 @@ class uploadTests(TestCase):
             event=event
         )
 
+        Athlete.objects.create(
+            name= "A Dijiang",
+            sex="M",
+            height= 180,
+            weight= 80,
+            team= country,
+            sport= sport
+        )
+
     def test_upload_create_region(self):
         df = pd.DataFrame([["BRA", "Brazil", ""]], [0], ["NOC", "region", "notes"])
         country = upload.register_country(df)
         self.assertEqual(country.id, 2)
 
     def test_upload_get_region_by_noc(self):
-        region = upload.get_region_by_noc("AFG")
-        self.assertEqual(region.name, "Afghanistan")
+        region = upload.get_region_by_noc("CHN")
+        self.assertEqual(region.name, "China")
 
     def test_upload_create_sport(self):
         sport = upload.register_sport("Judo")
@@ -102,5 +111,14 @@ class uploadTests(TestCase):
         self.assertEqual(result, "1992 Summer: Basketball Men's Basketball")
 
     def test_upload_create_game_event(self):
+        #ja esta cadastrado esse game evento
         game_event = upload.register_game_event(1,1)
         self.assertEqual(game_event.id, 2)
+
+    def test_upload_get_athlete_by_id(self):
+        athlete = upload.get_athlete_by_id(1)
+        self.assertEqual(athlete.name, "A Dijiang")
+
+    def test_upload_create_athlete(self):
+        athlete = upload.register_atlete("Rafael Eduardo", "M",172,70,"CHN", "Basketball")
+        self.assertEqual(athlete.id, 2)

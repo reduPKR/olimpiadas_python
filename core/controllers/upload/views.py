@@ -423,7 +423,10 @@ def get_athlete_id_in_dataframe(name, sex, height, weight, team_id, sport_id, re
                     (registered["team_id"] == team_id) & (registered["sport_id"] == sport_id))]["id"].values[0]
 
 def get_athlete_by_id(athlete_id):
-    return Athlete.objects.get(id = athlete_id )
+    try:
+        return Athlete.objects.get(id = athlete_id )
+    except:
+        return None
 
 def update_registered_athlete(registered, name, sex, height, weight, team_id, sport_id):
     if len(registered) == 0:
@@ -434,7 +437,7 @@ def update_registered_athlete(registered, name, sex, height, weight, team_id, sp
         return pd.concat([registered, df])
 
 def register_atlete(name, sex, height, weight, noc, sport):
-    Athlete.objects.create(
+    return Athlete.objects.create(
         name= name,
         sex=sex,
         height= height,
