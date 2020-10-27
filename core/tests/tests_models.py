@@ -17,7 +17,7 @@ class uploadTests(TestCase):
             name="Basketball"
         )
 
-        Event.objects.create(
+        event = Event.objects.create(
             name="Basketball Men's Basketball",
             sport=sport
         )
@@ -30,10 +30,15 @@ class uploadTests(TestCase):
             name= "Summer"
         )
 
-        Game.objects.create(
+        game = Game.objects.create(
             year=1992,
             season=season,
             city=city
+        )
+
+        GameEvents.objects.create(
+            game=game,
+            event=event
         )
 
     def test_upload_create_region(self):
@@ -89,3 +94,13 @@ class uploadTests(TestCase):
     def test_upload_create_game(self):
         game = upload.register_game(1993, "Summer", "Barcelona")
         self.assertEqual(game.id, 2)
+
+    def test_upload_get_game_event_by_id(self):
+        game_event = upload.get_game_event_by_id(1)
+        game_name = "{} {}".format(game_event.game.year, game_event.game.season.name)
+        result = "{}: {}".format(game_name, game_event.event.name)
+        self.assertEqual(result, "1992 Summer: Basketball Men's Basketball")
+
+    def test_upload_create_game_event(self):
+        game_event = upload.register_game_event(1,1)
+        self.assertEqual(game_event.id, 2)

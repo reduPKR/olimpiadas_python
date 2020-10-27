@@ -351,7 +351,10 @@ def get_game_event_in_dataframe(game_id, event_id, registered):
     return registered.loc[((registered["game_id"] == game_id) & (registered["event_id"] == event_id))]["id"].values[0]
 
 def get_game_event_by_id(game_event_id):
-    return GameEvents.objects.get(id = game_event_id )
+    try:
+        return GameEvents.objects.get(id = game_event_id )
+    except:
+        return None
 
 def game_event_not_exist(game_id, event_id, registered):
     if len(registered) == 0:
@@ -366,7 +369,7 @@ def update_registered_game_event(registered, game_id, event_id):
         return pd.concat([registered, df])
 
 def register_game_event(game_id, event_id):
-    GameEvents.objects.create(
+    return GameEvents.objects.create(
         game=get_game_by_id(game_id),
         event=get_event_by_id(event_id)
     )
