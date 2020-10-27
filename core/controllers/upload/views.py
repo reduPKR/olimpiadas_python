@@ -316,7 +316,7 @@ def save_game_event(game_event, request):
                 if game_event_not_exist(game_id, event_id, registered_game_event):
                     try:
                         register_game_event(game_id, event_id)
-                        registered_game_event = update_registered_game(registered_game_event, game_id, event_id)
+                        registered_game_event = update_registered_game_event(registered_game_event, game_id, event_id)
                     except:
                         register_message(item[1]["Event"], message_except, request)
 
@@ -329,7 +329,7 @@ def game_event_not_exist(game_id, event_id, registered):
         return True
     return len(registered.loc[((registered["game_id"] == game_id) & (registered["event_id"] == event_id))]) == 0
 
-def update_registered_game(registered, game_id, event_id):
+def update_registered_game_event(registered, game_id, event_id):
     if len(registered) == 0:
         return get_registered_games()
     else:
@@ -351,7 +351,7 @@ def save_athlete(athlete, request):
     registered_country = get_registered_regions()
     registered_sport = get_registered_sports()
     registered_athlete = get_registered_athlete()
-    
+
     message_except = "Erro ao cadastrar o atleta "
     for item in df.iterrows():
         if not region_not_exist(item[1]["NOC"], registered_country):
