@@ -40,7 +40,7 @@ def save_data(athletes, regions, request):
     save_city(athletes["City"], request)
     save_season(athletes["Season"], request)
     save_game(athletes[["Year", "Season", "City"]], request)
-    # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
     # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
     # save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
 
@@ -148,6 +148,9 @@ def event_not_exist(event, registered):
         return True
     return len(registered.loc[registered["name"] == event]) == 0
 
+def get_event_by_id(event_id):
+    return Event.objects.get(id=event_id)
+
 def get_event_by_name(event):
     return Event.objects.get(name=event)
 
@@ -243,7 +246,7 @@ def save_game(game, request):
     registered_season = get_registered_season()
     registered_city = get_registered_city()
     registered_games = get_registered_games()
-    print(registered_games)
+
     message_except = "Erro ao cadastrar o jogo "
     for item in df.iterrows():
         if not season_not_exist(item[1]["Season"], registered_season):
@@ -256,7 +259,6 @@ def save_game(game, request):
                     try:
                         register_game(item[1]["Year"], item[1]["Season"], item[1]["City"])
                         registered_games = update_registered_game(registered_games, item[1]["Year"], season_id, city_id)
-                        print(registered_games)
                     except:
                         register_message(item[1]["Year"]+" "+item[1]["Season"], message_except, request)
 
@@ -269,12 +271,13 @@ def game_not_exist(year, season, city, registered):
         return True
     return len(registered.loc[((registered["year"] == year) & (registered["city_id"] == city) & (registered["season_id"] == season))]) == 0
 
-def get_game_by_data(year, season, city):
-    return Game.objects.get(
-        year=year,
-        season= get_season_by_name(season),
-        city=get_city_by_name(city)
-    )
+def get_game_by_id(game_id):
+    return Game.objects.get(id=game_id)
+
+def get_game_by_data(year, season_id, city_id, registered):
+    return registered.loc[((registered["year"] == year) &
+                           (registered["city_id"] == city_id) &
+                           (registered["season_id"] == season_id))]["id"].values[0]
 
 def update_registered_game(registered, year, season, city):
     if len(registered) == 0:
@@ -292,33 +295,52 @@ def register_game(year, season, city):
 
 def save_game_event(game_event, request):
     df = game_event.drop_duplicates(["Year", "Season", "City", "Event"], keep='first')
+    registered_season = get_registered_season()
+    registered_city = get_registered_city()
+    registered_events = get_registered_events()
+    registered_games = get_registered_games()
+    registered_game_event = get_registered_games_event()
 
     message_except = "Erro ao cadastrar evento nos jogos "
     for item in df.iterrows():
-        if not event_not_exist(item[1]["Event"]):
-            if not game_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"]):
-                if game_event_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
+        if not event_not_exist(item[1]["Event"], registered_events):
+
+            season_id = get_by_name_in_dataframe(item[1]["Season"], registered_season)
+            city_id = get_by_name_in_dataframe(item[1]["City"], registered_city)
+
+            if not game_not_exist(item[1]["Year"], season_id, city_id, registered_games):
+
+                event_id = get_by_name_in_dataframe(item[1]["Event"], registered_events)
+                game_id = get_game_by_data(item[1]["Year"], season_id, city_id, registered_games)
+
+                if game_event_not_exist(game_id, event_id, registered_game_event):
                     try:
-                        register_game_event(item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"])
+                        register_game_event(game_id, event_id)
+                        registered_game_event = update_registered_game(registered_game_event, game_id, event_id)
                     except:
                         register_message(item[1]["Event"], message_except, request)
 
-def game_event_not_exist(year, season, city, event):
-    return GameEvents.objects.filter(
-        game=get_game_by_data(year, season, city),
-        event=get_event_by_name(event)
-    ).first() == None
 
-def get_game_event_not_exist(year, season, city, event):
-    return GameEvents.objects.get(
-        game=get_game_by_data(year, season, city),
-        event=get_event_by_name(event)
-    )
+def get_registered_games_event():
+    games_events = GameEvents.objects.all()
+    return pd.DataFrame(list(games_events.values()))
 
-def register_game_event(year, season, city, event):
+def game_event_not_exist(game_id, event_id, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[((registered["game_id"] == game_id) & (registered["event_id"] == event_id))]) == 0
+
+def update_registered_game(registered, game_id, event_id):
+    if len(registered) == 0:
+        return get_registered_games()
+    else:
+        df = pd.DataFrame([[0, game_id, event_id]], [0], ["id", "game_id", "event_id"])
+        return pd.concat([registered, df])
+
+def register_game_event(game_id, event_id):
     GameEvents.objects.create(
-        game=get_game_by_data(year, season, city),
-        event=get_event_by_name(event)
+        game=get_game_by_id(game_id),
+        event=get_event_by_id(event_id)
     )
 
 def save_athlete(athlete, request):
@@ -394,14 +416,14 @@ def save_event_participants(athlete, request):
 def event_participant_not_exist(name, sex, height, weight, age,  noc, sport, year, season, city, event):
     return EventParticipant.objects.filter(
         age=age,
-        game_event=get_game_event_not_exist(year, season, city, event),
+        #game_event=get_game_event_not_exist(year, season, city, event),
         athlete=get_athlete(name, sex, height, weight, noc, sport)
     ).first() == None
 
 def register_event_participants(name, sex, height, weight, age, noc, sport, year, season, city, event, medal):
     EventParticipant.objects.create(
         age= age,
-        game_event=get_game_event_not_exist(year, season, city, event),
+       # game_event=get_game_event_not_exist(year, season, city, event),
         athlete=get_athlete(name, sex, height, weight, noc, sport),
         medal=get_medal(medal)
     )
