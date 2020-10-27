@@ -36,18 +36,22 @@ class uploadTests(TestCase):
             city=city
         )
 
-        GameEvents.objects.create(
+        game_event = GameEvents.objects.create(
             game=game,
             event=event
         )
 
-        Athlete.objects.create(
+        athlete = Athlete.objects.create(
             name= "A Dijiang",
             sex="M",
             height= 180,
             weight= 80,
             team= country,
             sport= sport
+        )
+
+        Medal.objects.create(
+            name="Gold"
         )
 
     def test_upload_create_region(self):
@@ -122,3 +126,7 @@ class uploadTests(TestCase):
     def test_upload_create_athlete(self):
         athlete = upload.register_atlete("Rafael Eduardo", "M",172,70,"CHN", "Basketball")
         self.assertEqual(athlete.id, 2)
+
+    def test_upload_create_event_participants(self):
+        participant = upload.register_event_participants(1, 24,1,"Gold")
+        self.assertEqual(participant.id, 1)

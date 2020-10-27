@@ -502,7 +502,7 @@ def event_participant_not_exist(athlete_id, age,  game_event_id, registered):
                                (registered["game_event_id"] == game_event_id))]) == 0
 
 def register_event_participants(athlete_id, age, game_event_id, medal):
-    EventParticipant.objects.create(
+    return EventParticipant.objects.create(
         age=age,
         game_event=get_game_event_by_id(game_event_id),
         athlete=get_athlete_by_id(athlete_id),
