@@ -27,7 +27,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Salvar os atletas participantes
 - [X] Readme.md
 - [X] Testes templates/rotas
-- [ ] Otimizaçoes
+- [X] Otimizaçoes
 - [ ] Testes upload
 - [ ] Testes create
 - [ ] Testes read
@@ -43,6 +43,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [ ] Apagar atleta
 - [ ] Atualizar região
 - [ ] Atualizar atleta
+- [ ] Analise de tempo upload arquivo
 
 ## Modelo do banco de dados  
 
