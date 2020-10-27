@@ -83,10 +83,10 @@ def update_registered_regions(registered, data):
         return pd.concat([registered, df])
 
 def register_country(country):
-    Country.objects.create(
-            noc=country["NOC"],
-            name=country["region"],
-            notes=country["notes"]
+    return Country.objects.create(
+            noc=country["NOC"].values[0],
+            name=country["region"].values[0],
+            notes=country["notes"].values[0]
         )
 
 def save_sports(sport, request):
@@ -119,10 +119,13 @@ def update_registered_sports(registered, data):
         return pd.concat([registered, df])
 
 def get_sport_by_name(sport):
-    return Sport.objects.get(name=sport)
+    try:
+        return Sport.objects.get(name=sport)
+    except:
+        return None
 
 def register_sport(sport):
-    Sport.objects.create(
+    return Sport.objects.create(
         name=sport
     )
 
@@ -152,10 +155,16 @@ def event_not_exist(event, registered):
     return len(registered.loc[registered["name"] == event]) == 0
 
 def get_event_by_id(event_id):
-    return Event.objects.get(id=event_id)
+    try:
+        return Event.objects.get(id=event_id)
+    except:
+        None
 
 def get_event_by_name(event):
-    return Event.objects.get(name=event)
+    try:
+        return Event.objects.get(name=event)
+    except:
+        None
 
 def update_registered_event(registered, sport, data):
     if len(registered) == 0:
@@ -165,7 +174,7 @@ def update_registered_event(registered, sport, data):
         return pd.concat([registered, df])
 
 def register_event(event, sport):
-    Event.objects.create(
+    return Event.objects.create(
         name=event,
         sport= get_sport_by_name(sport)
     )
