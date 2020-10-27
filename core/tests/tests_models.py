@@ -26,6 +26,10 @@ class uploadTests(TestCase):
             name= "Barcelona"
         )
 
+        Season.objects.create(
+            name= "Summer"
+        )
+
     def test_upload_create_region(self):
         df = pd.DataFrame([["BRA", "Brazil", ""]], [0], ["NOC", "region", "notes"])
         country = upload.register_country(df)
@@ -62,3 +66,11 @@ class uploadTests(TestCase):
     def test_upload_create_city(self):
         city = upload.register_city("London")
         self.assertEqual(city.id, 2)
+
+    def test_upload_get_season_by_name(self):
+        season = upload.get_season_by_name("Summer")
+        self.assertEqual(season.id, 1)
+
+    def test_upload_create_season(self):
+        season = upload.register_season("Winter")
+        self.assertEqual(season.id, 2)

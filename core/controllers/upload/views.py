@@ -249,7 +249,7 @@ def update_registered_season(registered, data):
         return pd.concat([registered, df])
 
 def register_season(season):
-    Season.objects.create(
+    return Season.objects.create(
         name=season
     )
 
