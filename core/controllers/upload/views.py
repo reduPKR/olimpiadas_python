@@ -65,7 +65,10 @@ def get_registered_regions():
     return pd.DataFrame(list(regions.values()))
 
 def get_region_by_noc(noc):
-    return Country.objects.get(noc=noc)
+    try:
+        return Country.objects.get(noc=noc)
+    except:
+        return None
 
 def region_not_exist(noc, registered):
     if len(registered) == 0:
