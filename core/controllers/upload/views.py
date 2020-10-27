@@ -42,7 +42,7 @@ def save_data(athletes, regions, request):
     save_game(athletes[["Year", "Season", "City"]], request)
     save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
     save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
-    # save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
+    save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
 
 def get_in_dataframe(name, column, registered):
     return registered.loc[registered[column] == name]["id"].values[0]
