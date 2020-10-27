@@ -39,10 +39,13 @@ def save_data(athletes, regions, request):
     save_events(athletes[["Sport", "Event"]], request)
     save_city(athletes["City"], request)
     save_season(athletes["Season"], request)
-    # save_game(athletes[["Year", "Season", "City"]], request)
+    save_game(athletes[["Year", "Season", "City"]], request)
     # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
     # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
     # save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
+
+def get_by_name_in_dataframe(name, registered):
+    return registered.loc[registered["name"] == name]["id"].values[0]
 
 def save_region(regions, request):
     regions.fillna(value="", inplace=True)
@@ -115,9 +118,6 @@ def update_registered_sports(registered, data):
 def get_sport_by_name(sport):
     return Sport.objects.get(name=sport)
 
-def get_sport_by_name_in_dataframe(sport, registered):
-    return registered.loc[registered["name"] == sport]["id"].values
-
 def register_sport(sport):
     Sport.objects.create(
         name=sport
@@ -134,8 +134,7 @@ def save_events(event, request):
             if event_not_exist(item[1]["Event"], registered_events):
                 try:
                     register_event(item[1]["Event"], item[1]["Sport"])
-                    sport = get_sport_by_name_in_dataframe(item[1]["Sport"], registered_sports)
-                    print(sport)
+                    sport = get_by_name_in_dataframe(item[1]["Sport"], registered_sports)
                     registered_events = update_registered_event(registered_events, sport, item[1]["Event"])
                 except:
                     register_message(item[1]["Event"], message_except, request)
@@ -241,23 +240,34 @@ def register_season(season):
 
 def save_game(game, request):
     df = game.drop_duplicates(["Year", "Season", "City"], keep='first')
-
+    registered_season = get_registered_season()
+    registered_city = get_registered_city()
+    registered_games = get_registered_games()
+    print(registered_games)
     message_except = "Erro ao cadastrar o jogo "
     for item in df.iterrows():
-        if not season_not_exist(item[1]["Season"]):
-            if not city_not_exist(item[1]["City"]):
-                if game_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"]):
+        if not season_not_exist(item[1]["Season"], registered_season):
+            if not city_not_exist(item[1]["City"], registered_city):
+
+                season_id = get_by_name_in_dataframe(item[1]["Season"], registered_season)
+                city_id = get_by_name_in_dataframe(item[1]["City"], registered_city)
+
+                if game_not_exist(item[1]["Year"], season_id, city_id, registered_games):
                     try:
                         register_game(item[1]["Year"], item[1]["Season"], item[1]["City"])
+                        registered_games = update_registered_game(registered_games, item[1]["Year"], season_id, city_id)
+                        print(registered_games)
                     except:
                         register_message(item[1]["Year"]+" "+item[1]["Season"], message_except, request)
 
-def game_not_exist(year, season, city):
-    return Game.objects.filter(
-        year=year,
-        season= get_season_by_name(season),
-        city=get_city_by_name(city)
-    ).first() == None
+def get_registered_games():
+    games = Game.objects.all()
+    return pd.DataFrame(list(games.values()))
+
+def game_not_exist(year, season, city, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[((registered["year"] == year) & (registered["city_id"] == city) & (registered["season_id"] == season))]) == 0
 
 def get_game_by_data(year, season, city):
     return Game.objects.get(
@@ -265,6 +275,13 @@ def get_game_by_data(year, season, city):
         season= get_season_by_name(season),
         city=get_city_by_name(city)
     )
+
+def update_registered_game(registered, year, season, city):
+    if len(registered) == 0:
+        return get_registered_games()
+    else:
+        df = pd.DataFrame([[0, year, city, season]], [0], ["id", "year", "city_id", "season_id"])
+        return pd.concat([registered, df])
 
 def register_game(year, season, city):
     Game.objects.create(
