@@ -202,7 +202,10 @@ def city_not_exist(city, registered):
     return len(registered.loc[registered["name"] == city]) == 0
 
 def get_city_by_name(city):
-    return City.objects.get(name=city)
+    try:
+        return City.objects.get(name=city)
+    except:
+        None
 
 def update_registered_city(registered, data):
     if len(registered) == 0:
@@ -239,7 +242,10 @@ def season_not_exist(season, registered):
     return len(registered.loc[registered["name"] == season]) == 0
 
 def get_season_by_name(season):
-    return Season.objects.get(name=season)
+    try:
+        return Season.objects.get(name=season)
+    except:
+        None
 
 def update_registered_season(registered, data):
     if len(registered) == 0:
@@ -284,7 +290,10 @@ def game_not_exist(year, season, city, registered):
     return len(registered.loc[((registered["year"] == year) & (registered["city_id"] == city) & (registered["season_id"] == season))]) == 0
 
 def get_game_by_id(game_id):
-    return Game.objects.get(id=game_id)
+    try:
+        return Game.objects.get(id=game_id)
+    except:
+        return None
 
 def get_game_by_data(year, season_id, city_id, registered):
     return registered.loc[((registered["year"] == year) &
@@ -299,7 +308,7 @@ def update_registered_game(registered, year, season, city):
         return pd.concat([registered, df])
 
 def register_game(year, season, city):
-    Game.objects.create(
+    return Game.objects.create(
         year=year,
         season= get_season_by_name(season),
         city= get_city_by_name(city)

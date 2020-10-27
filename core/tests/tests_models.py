@@ -22,12 +22,18 @@ class uploadTests(TestCase):
             sport=sport
         )
 
-        City.objects.create(
+        city = City.objects.create(
             name= "Barcelona"
         )
 
-        Season.objects.create(
+        season = Season.objects.create(
             name= "Summer"
+        )
+
+        Game.objects.create(
+            year=1992,
+            season=season,
+            city=city
         )
 
     def test_upload_create_region(self):
@@ -74,3 +80,12 @@ class uploadTests(TestCase):
     def test_upload_create_season(self):
         season = upload.register_season("Winter")
         self.assertEqual(season.id, 2)
+
+    def test_upload_get_game_by_id(self):
+        game = upload.get_game_by_id(1)
+        result = "{} {}".format(game.year, game.season.name)
+        self.assertEqual(result, "1992 Summer")
+
+    def test_upload_create_game(self):
+        game = upload.register_game(1993, "Summer", "Barcelona")
+        self.assertEqual(game.id, 2)
