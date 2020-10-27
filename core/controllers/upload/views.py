@@ -324,6 +324,14 @@ def get_registered_games_event():
     games_events = GameEvents.objects.all()
     return pd.DataFrame(list(games_events.values()))
 
+def get_game_event_in_dataframe(game_id, event_id, registered):
+    if len(registered) == 0:
+        return True
+    return registered.loc[((registered["game_id"] == game_id) & (registered["event_id"] == event_id))]["id"].values[0]
+
+def get_game_event_by_id(game_event_id):
+    return GameEvents.objects.get(id = game_event_id )
+
 def game_event_not_exist(game_id, event_id, registered):
     if len(registered) == 0:
         return True
@@ -385,15 +393,13 @@ def athlete_not_exist(name, sex, height, weight, team_id, sport_id, registered):
                                (registered["height"] == height) & (registered["weight"] == weight) &
                                (registered["team_id"] == team_id) & (registered["sport_id"] == sport_id))]) == 0
 
-def get_athlete(name, sex, height, weight, noc, sport):
-    return Athlete.objects.get(
-        name= name,
-        sex=sex,
-        height= height,
-        weight= weight,
-        team= get_region_by_noc(noc),
-        sport= get_sport_by_name(sport)
-    )
+def get_athlete_id_in_dataframe(name, sex, height, weight, team_id, sport_id, registered):
+    return registered.loc[((registered["name"] == name) & (registered["sex"] == sex) &
+                    (registered["height"] == height) & (registered["weight"] == weight) &
+                    (registered["team_id"] == team_id) & (registered["sport_id"] == sport_id))]["id"].values[0]
+
+def get_athlete_by_id(athlete_id):
+    return Athlete.objects.get(id = athlete_id )
 
 def update_registered_athlete(registered, name, sex, height, weight, team_id, sport_id):
     if len(registered) == 0:
@@ -420,34 +426,69 @@ def save_event_participants(athlete, request):
     athlete['Age'].fillna(value=athlete['Age'].mean(), inplace=True)
     athlete.sort_values("Name", inplace=True)
 
+    registered_country = get_registered_regions()
+    registered_sport = get_registered_sports()
+    registered_athlete = get_registered_athlete()
+    registered_season = get_registered_season()
+    registered_city = get_registered_city()
+    registered_events = get_registered_events()
+    registered_games = get_registered_games()
+    registered_game_event = get_registered_games_event()
+    registered_participant = get_registered_game_event_participant()
+
     message_except = "Erro ao cadastrar o atleta no evento"
     for item in athlete.iterrows():
-        if not region_not_exist(item[1]["NOC"]):
-            if not sport_not_exist(item[1]["Sport"]):
-                if not game_event_not_exist(item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
-                    if not athlete_not_exist(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"],  item[1]["NOC"], item[1]["Sport"]):
-                        if event_participant_not_exist(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"], item[1]["Age"],  item[1]["NOC"], item[1]["Sport"], item[1]["Year"], item[1]["Season"], item[1]["City"], item[1]["Event"]):
+        if not region_not_exist(item[1]["NOC"], registered_country):
+            if not sport_not_exist(item[1]["Sport"], registered_sport):
+
+                season_id = get_in_dataframe(item[1]["Season"], "name", registered_season)
+                city_id = get_in_dataframe(item[1]["City"], "name", registered_city)
+                event_id = get_in_dataframe(item[1]["Event"], "name", registered_events)
+                game_id = get_game_by_data(item[1]["Year"], season_id, city_id, registered_games)
+
+                if not game_event_not_exist(game_id, event_id, registered_game_event):
+
+                    sport_id = get_in_dataframe(item[1]["Sport"], "name", registered_sport)
+                    team_id = get_in_dataframe(item[1]["NOC"], "noc", registered_country)
+
+                    if not athlete_not_exist(item[1]["Name"],item[1]["Sex"],  item[1]["Height"],item[1]["Weight"], team_id, sport_id, registered_athlete):
+
+                        athlete_id = get_athlete_id_in_dataframe(item[1]["Name"],item[1]["Sex"],  item[1]["Height"],item[1]["Weight"], team_id, sport_id, registered_athlete)
+                        game_event_id = get_game_event_in_dataframe(game_id,event_id, registered_game_event)
+
+                        if event_participant_not_exist(athlete_id, item[1]["Age"], game_event_id, registered_participant):
                             try:
-                                register_event_participants(item[1]["Name"], item[1]["Sex"], item[1]["Height"], item[1]["Weight"], item[1]["Age"],
-                                                item[1]["NOC"], item[1]["Sport"], item[1]["Year"], item[1]["Season"],
-                                                item[1]["City"], item[1]["Event"], item[1]["Medal"])
+                                register_event_participants(athlete_id, item[1]["Age"], game_event_id, item[1]["Medal"])
+                                registered_participant = update_registered_participant(registered_athlete, athlete_id,
+                                                                                       item[1]["Age"], game_event_id)
                             except:
                                 register_message(item[1]["Name"]+" "+item[1]["Event"], message_except, request)
 
-def event_participant_not_exist(name, sex, height, weight, age,  noc, sport, year, season, city, event):
-    return EventParticipant.objects.filter(
-        age=age,
-        #game_event=get_game_event_not_exist(year, season, city, event),
-        athlete=get_athlete(name, sex, height, weight, noc, sport)
-    ).first() == None
+def get_registered_game_event_participant():
+    participant = EventParticipant.objects.all()
+    return pd.DataFrame(list(participant.values()))
 
-def register_event_participants(name, sex, height, weight, age, noc, sport, year, season, city, event, medal):
+def event_participant_not_exist(athlete_id, age,  game_event_id, registered):
+    if len(registered) == 0:
+        return True
+    return len(registered.loc[((registered["athlete_id"] == athlete_id) & (registered["age"] == age) &
+                               (registered["game_event_id"] == game_event_id))]) == 0
+
+def register_event_participants(athlete_id, age, game_event_id, medal):
     EventParticipant.objects.create(
-        age= age,
-       # game_event=get_game_event_not_exist(year, season, city, event),
-        athlete=get_athlete(name, sex, height, weight, noc, sport),
+        age=age,
+        game_event=get_game_event_by_id(game_event_id),
+        athlete=get_athlete_by_id(athlete_id),
         medal=get_medal(medal)
     )
+
+def update_registered_participant(registered, athlete_id, age, game_event_id):
+    if len(registered) == 0:
+        return get_registered_games()
+    else:
+        df = pd.DataFrame([[0, athlete_id, age, game_event_id, 0]], [0],
+                          ["id", "athlete_id", "age", "game_event_id", "medal_id"])
+        return pd.concat([registered, df])
 
 def get_medal(medal):
     return Medal.objects.get(
