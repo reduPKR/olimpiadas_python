@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.contrib import messages
 from core.models import *
 
+import time
+
 
 def upload(request):
     if request.POST:
@@ -34,15 +36,55 @@ def register_message(error, message, request):
     messages.error(request, "{}: {}".format(message, error))
 
 def save_data(athletes, regions, request):
+    start = time.time()
+
+    start_aux = time.time()
     save_region(regions, request)
+    end = time.time()
+    print("tempo cadastro regioes {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_sports(athletes["Sport"], request)
+    end = time.time()
+    print("tempo cadastro esportes {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_events(athletes[["Sport", "Event"]], request)
+    end = time.time()
+    print("tempo cadastro eventos {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_city(athletes["City"], request)
+    end = time.time()
+    print("tempo cadastro cidade {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_season(athletes["Season"], request)
+    end = time.time()
+    print("tempo cadastro temporada {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_game(athletes[["Year", "Season", "City"]], request)
+    end = time.time()
+    print("tempo cadastro game {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    end = time.time()
+    print("tempo cadastro game evento {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
+    end = time.time()
+    print("tempo cadastro atleta {}".format(end - start_aux))
+
+    start_aux = time.time()
     save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
+    end = time.time()
+    print("tempo cadastro participantes {}".format(end - start_aux))
+
+    end = time.time()
+    print("tempo total {}".format(end-start))
 
 def get_in_dataframe(name, column, registered):
     return registered.loc[registered[column] == name]["id"].values[0]
@@ -363,7 +405,7 @@ def game_event_not_exist(game_id, event_id, registered):
 
 def update_registered_game_event(registered, game_id, event_id):
     if len(registered) == 0:
-        return get_registered_games()
+        return get_registered_games_event()
     else:
         df = pd.DataFrame([[0, game_id, event_id]], [0], ["id", "game_id", "event_id"])
         return pd.concat([registered, df])
@@ -430,7 +472,7 @@ def get_athlete_by_id(athlete_id):
 
 def update_registered_athlete(registered, name, sex, height, weight, team_id, sport_id):
     if len(registered) == 0:
-        return get_registered_games()
+        return get_registered_athlete()
     else:
         df = pd.DataFrame([[0, name, height, weight, sex, team_id, sport_id]], [0],
                           ["id", "name", "height", "weight", "sex", "team_id", "sport_id"])
@@ -511,7 +553,7 @@ def register_event_participants(athlete_id, age, game_event_id, medal):
 
 def update_registered_participant(registered, athlete_id, age, game_event_id):
     if len(registered) == 0:
-        return get_registered_games()
+        return get_registered_game_event_participant()
     else:
         df = pd.DataFrame([[0, athlete_id, age, game_event_id, 0]], [0],
                           ["id", "athlete_id", "age", "game_event_id", "medal_id"])
