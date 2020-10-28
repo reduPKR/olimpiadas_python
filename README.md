@@ -6,10 +6,15 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Executar os testes:** python manage.py test core  
 **Usuário e senha:** admin
 
-## Rotas
+## Rotas  
+###Paginas  
+
 **Url admin:** 127.0.0.1:8000/admin  
 **Url Home-page:** 127.0.0.1:8000 | 127.0.0.1:8000/ | 127.0.0.1:8000/home/  
-**Url Upload dos arquivos:** 127.0.0.1:8000/upload/  
+**Url Upload dos arquivos:** 127.0.0.1:8000/upload/   
+**Url listar atletas:** 127.0.0.1:8000/athlete/list/  
+**Url filtrar atletas:** 127.0.0.1:8000/athlete/filter/  
+###Rest  
 
 
 ## Tarefas
@@ -30,17 +35,20 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Otimizaçoes
 - [X] Testes upload
 - [ ] Testes TDD itens abaixo
-- [ ] Tela de visualização de região
+- [X] listar atletas
+- [X] Filtros de busca atleta
 - [ ] Tela de visualização de atleta
-- [ ] Filtros de busca atleta
 - [ ] Cadastrar atleta
 - [ ] Apagar atleta
 - [ ] Atualizar atleta
 - [ ] Filtros de busca região
+- [ ] listar região
+- [ ] Tela de visualização de região
 - [ ] Cadastrar região
 - [ ] Apagar região
 - [ ] Atualizar região
 - [ ] Analise de tempo upload arquivo
+- [ ] Voltar melhorando
 
 ## Analise de tempo  
 Analises relacionadas ao upload e tratamento dos arquivos excel  
@@ -50,4 +58,4 @@ Analises relacionadas ao upload e tratamento dos arquivos excel
 
 ## Modelo do banco de dados  
 
-![image](https://user-images.githubusercontent.com/56879793/97120482-05ccb600-16f6-11eb-810b-73458f28e210.png)
+![image](https://user-images.githubusercontent.com/56879793/97129878-b6e74680-171e-11eb-992d-798cbc177b9a.png)
