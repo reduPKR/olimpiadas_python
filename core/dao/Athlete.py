@@ -1,5 +1,5 @@
 from core import models
-from core.dao import Medal, EventParticipants, GameEvent
+from core.dao import Medal, EventParticipants, GameEvent, Game
 
 
 def list_all():
@@ -22,6 +22,7 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
     athletes_age = []
     athletes_sex = []
     athletes_event = []
+    athletes_city= []
 
     if team_id != "0":
         athletes_team = filter_by_team_id(team_id)
@@ -43,4 +44,10 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
         game_events = GameEvent.filter_by_event(event_id)
         athletes_event = EventParticipants.filter_get_athlete_game_event(game_events)
 
-    return athletes_event
+    if city_id != "0":
+        games = Game.filter_by_city(city_id)
+        if len(games) > 0:
+            game_events = GameEvent.filter_by_game(games)
+            athletes_city = EventParticipants.filter_get_athlete_game_event(game_events)
+
+    return athletes_city
