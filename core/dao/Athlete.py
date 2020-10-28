@@ -15,7 +15,6 @@ def filter_by_sex(sex):
     return list(models.Athlete.objects.filter(sex=sex))
 
 def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id, city_id, season_id, gold, silver, bronze):
-    athletes = []
     athletes_medal = []
     athletes_team = []
     athletes_sport = []
@@ -23,6 +22,7 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
     athletes_sex = []
     athletes_event = []
     athletes_city= []
+    athletes_season = []
 
     if team_id != "0":
         athletes_team = filter_by_team_id(team_id)
@@ -50,4 +50,10 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
             game_events = GameEvent.filter_by_game(games)
             athletes_city = EventParticipants.filter_get_athlete_game_event(game_events)
 
-    return athletes_city
+    if season_id != "0":
+        games = Game.filter_by_season(season_id)
+        if len(games) > 0:
+            game_events = GameEvent.filter_by_game(games)
+            athletes_season = EventParticipants.filter_get_athlete_game_event(game_events)
+
+    return athletes_season

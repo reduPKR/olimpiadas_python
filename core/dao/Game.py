@@ -11,3 +11,12 @@ def filter_by_city(city_id):
         return list(games)
 
     return []
+
+
+def filter_by_season(season_id):
+    seasons = models.Game.objects.filter(season=season_id)
+
+    if len(seasons) > 0:
+        return list(seasons)
+
+    return []

@@ -28,9 +28,9 @@ def filter_get_athlete_medals(medals):
     return athletes
 
 def filter_get_athlete_game_event(game_events):
-    print(game_events)
+    print(len(game_events))
     participants = models.EventParticipant.objects.filter(game_event__in=game_events)
-    print(participants)
+
     athletes = []
     if len(participants) > 0:
         for item in participants:
