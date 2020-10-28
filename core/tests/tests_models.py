@@ -139,6 +139,9 @@ class uploadTests(TestCase):
         lista = dao.Athlete.list_all()
         self.assertNotEqual(len(lista), 0)
 
+    def test_athlete_get_by_id(self):
+        athlete = dao.Athlete.get_by_id(1)
+        self.assertEqual(athlete.name, "A Dijiang")
     # ------------------------------------------------------------------------------------------------
 
     def test_team_list(self):
