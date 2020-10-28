@@ -9,7 +9,9 @@
                 <i class="fas fa-exclamation"></i> Cuidado ao utilizar mais de um filtro filtros<br>
                 <i class="fas fa-exclamation"></i> Filtro por idade tras atleta que participou de algum evento com essa idade
             </p>
-            <br>
+            {% for message in messages %}
+                <span style="color: red;">* Erro: {{ message }}</span><br>
+            {% endfor %}
             <form action="submit" method="POST"> {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group">
@@ -79,6 +81,14 @@
                         <select class="form-control" name="city_id" value='0'>
                             <option value=0>  Filtrar por cidade da competição </option>
                             {% for item in city %}
+                                <option value={{ item.id }}> {{ item.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <select class="form-control" name="season_id" value='0'>
+                            <option value=0>  Filtrar por temporada </option>
+                            {% for item in season %}
                                 <option value={{ item.id }}> {{ item.name }} </option>
                             {% endfor %}
                         </select>
