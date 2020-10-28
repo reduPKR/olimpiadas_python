@@ -1,0 +1,38 @@
+{% extends  "models/model-page.html" %}
+
+{% block content %}
+    <div align="center">
+        <br>
+        <h3>Lista de atletas</h3>
+        <div class="col col-7 col-sm-7 col-md-4 col-lg-7 col-xs-4 box-gray">
+            <br>
+            <table class="table table-striped table-dark">
+                <form action="submit" method="POST"> {% csrf_token %}
+                    <label>Nome: </label>
+                    <input type="text" name="name" maxlength="60" size="40" /><br><br>
+                    <label>Idade: </label>
+                    <input type="number" name="age" value="20" min="18" max="60" />
+                    <label>Altura: </label>
+                    <input type="number" name="height" value="170" min="50" max="400" />
+                    <label>Peso: </label>
+                    <input type="number" name="weight" value="70" min="50" max="200" /><br><br>
+                    <select class="form-control" name="sex" value='0'>
+                        <option value="M"> Masculino </option>
+                        <option value="F"> Feminino </option>
+                    </select><br>
+                    <select class="form-control" name="team" value='0'>
+                        <option value=0> Selecionar a equipe </option>
+                        {% for item in team %}
+                            <option value={{ item.id }}> Time: {{ item.noc }} Pais: {{ item.name }} </option>
+                        {% endfor %}
+                    </select>
+                    <br><br>
+                    <button class="btn btn-secondary btn-lg btn-block" type="submit">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </form>
+            </table>
+            <br>
+        </div>
+    </div>
+{% endblock %}

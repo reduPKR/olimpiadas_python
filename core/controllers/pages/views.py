@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 import core.dao.athlete as athlete
+import core.dao.country as country
 
 def home(request):
     data = {
@@ -23,3 +24,11 @@ def athlete_list(request):
     }
 
     return render(request, 'athlete/list.html', data)
+
+def athlete_filter(request):
+    data = {
+        'title': "Filtrar atletas",
+        'team': country.list_all()
+    }
+
+    return render(request, 'athlete/filter.html', data)

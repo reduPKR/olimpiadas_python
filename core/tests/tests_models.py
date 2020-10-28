@@ -3,6 +3,7 @@ import pandas as pd
 
 from core.controllers.upload import views as upload
 from core.dao import athlete
+from core.dao import country
 from core.models import *
 
 class uploadTests(TestCase):
@@ -136,4 +137,10 @@ class uploadTests(TestCase):
 
     def test_athlete_list(self):
         athletes = athlete.list_all()
+        self.assertNotEqual(len(athletes), 0)
+
+    # ------------------------------------------------------------------------------------------------
+
+    def test_team_list(self):
+        athletes = country.list_all()
         self.assertNotEqual(len(athletes), 0)
