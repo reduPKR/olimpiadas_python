@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 
-import core.dao.athlete as athlete
-import core.dao.country as country
-import core.dao.game as game
-import core.dao.event as event
-import core.dao.sport as sport
-import core.dao.city as city
+import core.dao.Athlete as athlete
+import core.dao.Country as country
+import core.dao.Game as game
+import core.dao.Event as event
+import core.dao.Sport as sport
+import core.dao.City as city
 
 def home(request):
     data = {
@@ -57,13 +57,26 @@ def athlete_filter_submit(request):
         silver = request.POST.get("silver")
         bronze = request.POST.get("bronze")
 
-        print("ouro {}".format(gold))
-        print("prata {}".format(silver))
-        print("bronze {}".format(bronze))
-        data = {
-            'title': "Lista de atletas",
-            'athletes': athlete.list_all()
-        }
+        if filter_validate(name, age, height, weight, team_id, game_id,
+                           event_id, sport_id, city_id, gold, silver, bronze):
 
-        return render(request, 'athlete/list.html', data)
+            data = {
+                'title': "Lista de atletas",
+                'athletes': athlete.filter(name, age, height, weight, team_id, game_id,
+                                            event_id, sport_id, city_id, gold, silver, bronze)
+            }
+
+            return render(request, 'athlete/list.html', data)
     return redirect('/athlete/filter')
+
+def filter_validate(name, age, height, weight, team_id, game_id, event_id, sport_id, city_id, gold, silver, bronze):
+    if name is not "" or age is not "" or height is not "" or weight is not "":
+        return True
+
+    if team_id is not "0" or game_id is not "0" or event_id is not "0" or sport_id is not "0" or city_id is not "0":
+        return True
+
+    if gold is not None or silver is not None or bronze is not None:
+        return True
+
+    return False
