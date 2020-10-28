@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import core.dao.athlete as athlete
 import core.dao.country as country
@@ -40,3 +40,30 @@ def athlete_filter(request):
     }
 
     return render(request, 'athlete/filter.html', data)
+
+def athlete_filter_submit(request):
+    if request.POST:
+        name = request.POST.get("name")
+        age = request.POST.get("age")
+        height = request.POST.get("height")
+        weight = request.POST.get("weight")
+        sex = request.POST.get("sex")
+        team_id = request.POST.get("team_id")
+        game_id = request.POST.get("game_id")
+        event_id = request.POST.get("event_id")
+        sport_id = request.POST.get("sport_id")
+        city_id = request.POST.get("city_id")
+        gold = request.POST.get("gold")
+        silver = request.POST.get("silver")
+        bronze = request.POST.get("bronze")
+
+        print("ouro {}".format(gold))
+        print("prata {}".format(silver))
+        print("bronze {}".format(bronze))
+        data = {
+            'title': "Lista de atletas",
+            'athletes': athlete.list_all()
+        }
+
+        return render(request, 'athlete/list.html', data)
+    return redirect('/athlete/filter')

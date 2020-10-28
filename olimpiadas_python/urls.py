@@ -11,8 +11,9 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/home/')),
     path('home/', page.home, name="home_view"),
     path('upload/', page.upload, name="upload_view"),
-    path('athlete/list', page.athlete_list, name="list_athlete_view"),
-    path('athlete/filter', page.athlete_filter, name="filter_athlete_view"),
+    path('athlete/list/', page.athlete_list, name="list_athlete_view"),
+    path('athlete/filter/', page.athlete_filter, name="filter_athlete_view"),
 
     path('upload/submit', upload.upload),
+    path('athlete/filter/submit', page.athlete_filter_submit),
 ]
