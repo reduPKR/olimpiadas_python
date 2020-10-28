@@ -121,3 +121,13 @@ def get_all_info_by_id(id):
     athlete.events = EventParticipants.filter_by_athlete(athlete)
 
     return athlete
+
+
+def delete(id):
+    try:
+        athlete = models.Athlete.objects.get(id=id)
+        if athlete:
+            athlete.delete()
+            return True
+    except:
+        return False

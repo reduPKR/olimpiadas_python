@@ -4,6 +4,9 @@
     <div align="center">
         <br>
         <div class="col col-7 col-sm-7 col-md-4 col-lg-7 col-xs-4 box-gray">
+            {% for message in messages %}
+                <span style="color: red;">* Erro: {{ message }}</span><br>
+            {% endfor %}
             <h4>Atleta: {{athlete.name}}</h4>
             <br>
             <div class="form-row">
@@ -25,7 +28,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <a type="button" type="submit" class="btn btn-danger btn-block" href="#">
+                    <a type="button" type="submit" class="btn btn-danger btn-block" href="/athlete/delete/{{athlete.id}}/">
                         <i class="fas fa-user-times"></i> Delete
                     </a>
                 </div>

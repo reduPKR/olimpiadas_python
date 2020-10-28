@@ -17,4 +17,5 @@ urlpatterns = [
 
     path('upload/submit', upload.upload),
     path('athlete/filter/submit', page.athlete_filter_submit),
+    path('athlete/delete/<int:id>/', page.athlete_delete),
 ]

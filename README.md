@@ -17,7 +17,8 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 
 #### Rest  
 **Url executar upload:** 127.0.0.1:8000/upload/submit  
-**Url executar filtragem atletas:** 127.0.0.1:8000athlete/filter/submit
+**Url executar filtragem atletas:** 127.0.0.1:8000athlete/filter/submit  
+**Url deletar atleta:** 127.0.0.1:8000/athlete/delete/<int:id>/  
 
 ## Tarefas
 - [X] Home page
@@ -51,6 +52,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [ ] Atualizar região
 - [ ] Analise de tempo upload arquivo
 - [ ] Voltar melhorando
+- [ ] Adicionar paginação no atleta
 
 ## Analise de tempo  
 Analises relacionadas ao upload e tratamento dos arquivos excel  

@@ -103,3 +103,12 @@ def athlete_view(request):
         return render(request, 'athlete/view.html', data)
 
     return redirect('/athlete/filter')
+
+
+def athlete_delete(request,id):
+    if id:
+        if athlete.delete(id) is False:
+            messages.error(request, "Erro durante a exclusão")
+        return redirect("/athlete/list/")
+    else:
+        messages.error(request, "Atleta nao encontrado")
