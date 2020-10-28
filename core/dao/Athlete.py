@@ -11,24 +11,31 @@ def filter_by_team_id(team_id):
 def filter_by_sport_id(sport_id):
     return list(models.Athlete.objects.filter(sport=sport_id))
 
-def filter(name, age, height, weight, team_id, game_id, event_id, sport_id, city_id, gold, silver, bronze):
+def filter_by_sex(sex):
+    return list(models.Athlete.objects.filter(sex=sex))
+
+def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id, city_id, gold, silver, bronze):
     athletes = []
     athletes_medal = []
     athletes_team = []
     athletes_sport = []
     athletes_age = []
+    athletes_sex = []
 
-    if team_id is not "0":
+    if team_id != "0":
         athletes_team = filter_by_team_id(team_id)
 
-    if sport_id is not "0":
+    if sport_id != "0":
         athletes_sport = filter_by_sport_id(sport_id)
 
-    if age is not "":
+    if age != "":
         athletes_age = EventParticipants.filter_get_athlete_age(age)
+
+    if sex != "A":
+        athletes_sex = filter_by_sex(sex)
 
     if gold is not None or silver is not None or bronze is not None:
         medals = Medal.filter(gold, silver, bronze)
         athletes_medal = EventParticipants.filter_get_athlete_medals(medals)
 
-    return athletes_age
+    return athletes_sex

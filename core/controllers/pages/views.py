@@ -57,19 +57,22 @@ def athlete_filter_submit(request):
         silver = request.POST.get("silver")
         bronze = request.POST.get("bronze")
 
-        if filter_validate(name, age, height, weight, team_id, game_id,
+        if filter_validate(name, age, height, weight, sex, team_id, game_id,
                            event_id, sport_id, city_id, gold, silver, bronze):
 
             data = {
                 'title': "Lista de atletas",
-                'athletes': athlete.filter(name, age, height, weight, team_id, game_id,
+                'athletes': athlete.filter(name, age, height, weight, sex, team_id, game_id,
                                             event_id, sport_id, city_id, gold, silver, bronze)
             }
 
             return render(request, 'athlete/list.html', data)
     return redirect('/athlete/filter')
 
-def filter_validate(name, age, height, weight, team_id, game_id, event_id, sport_id, city_id, gold, silver, bronze):
+def filter_validate(name, age, height, weight, sex, team_id, game_id, event_id, sport_id, city_id, gold, silver, bronze):
+    if sex != "A":
+        return True
+
     if name is not "" or age is not "" or height is not "" or weight is not "":
         return True
 
