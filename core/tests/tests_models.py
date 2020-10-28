@@ -2,6 +2,7 @@ from django.test import TestCase
 import pandas as pd
 
 from core.controllers.upload import views as upload
+from core.dao import athlete
 from core.models import *
 
 class uploadTests(TestCase):
@@ -130,3 +131,9 @@ class uploadTests(TestCase):
     def test_upload_create_event_participants(self):
         participant = upload.register_event_participants(1, 24,1,"Gold")
         self.assertEqual(participant.id, 1)
+
+    # ------------------------------------------------------------------------------------------------
+
+    def test_athlete_list(self):
+        athletes = athlete.list_all()
+        self.assertNotEqual(len(athletes), 0)

@@ -43,3 +43,17 @@ class TemplatesViewTests(TestCase):
     def test_template_list_athlete_not_exists(self):
         response = self.client.get(reverse("home_view"))
         self.assertTemplateNotUsed(response, "athlete/list.html")
+
+    # ------------------------------------------------------------------------------------------------#
+
+    def test_template_filter_athlete_status_ok(self):
+        response = self.client.get(reverse("filter_athlete_view"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_filter_athlete(self):
+        response = self.client.get(reverse("filter_athlete_view"))
+        self.assertTemplateUsed(response, "athlete/filter.html")
+
+    def test_template_filter_athlete_not_exists(self):
+        response = self.client.get(reverse("home_view"))
+        self.assertTemplateNotUsed(response, "athlete/filter.html")
