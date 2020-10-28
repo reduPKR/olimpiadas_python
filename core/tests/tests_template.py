@@ -30,7 +30,7 @@ class TemplatesViewTests(TestCase):
         response = self.client.get(reverse("home_view"))
         self.assertTemplateNotUsed(response, "upload/upload.html")
 
-        # ------------------------------------------------------------------------------------------------#
+    # ------------------------------------------------------------------------------------------------#
 
     def test_template_list_athlete_status_ok(self):
         response = self.client.get(reverse("list_athlete_view"))
