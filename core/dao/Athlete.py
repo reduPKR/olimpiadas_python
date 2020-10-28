@@ -1,5 +1,5 @@
 from core import models
-from core.dao import Medal, EventParticipants, GameEvent, Game
+from core.dao import Medal, EventParticipants, GameEvent, Game, Athlete
 
 
 def list_all():
@@ -15,6 +15,7 @@ def filter_by_sex(sex):
     return list(models.Athlete.objects.filter(sex=sex))
 
 def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id, city_id, season_id, gold, silver, bronze):
+    athletes = []
     athletes_medal = []
     athletes_team = []
     athletes_sport = []
@@ -61,4 +62,28 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
             game_events = GameEvent.filter_by_game(games)
             athletes_season = EventParticipants.filter_get_athlete_game_event(game_events)
 
-    return athletes_games
+    if name != "" or age != "" or height != "" or weight != "":
+        athletes = Athlete.filter_athletes(name, age, height, weight)
+
+    return athletes
+
+
+def filter_athletes(name, age, height, weight):
+    list_name = []
+    list_age = []
+    list_height = []
+    list_weight = []
+
+    if name != "":
+        list_name = list(models.Athlete.objects.filter(name=name))
+
+    if age != "":
+        list_age = list(models.Athlete.objects.filter(age=age))
+
+    if height != "":
+        list_height = list(models.Athlete.objects.filter(height=height))
+
+    if weight != "":
+        list_weight = list(models.Athlete.objects.filter(weight=weight))
+
+    return list_name+list_age+list_height+list_weight
