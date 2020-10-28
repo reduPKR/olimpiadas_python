@@ -7,7 +7,7 @@ def filter(medals):
         return list(participants)
     return None
 
-def filter_get_athlete(medals):
+def filter_get_athlete_medals(medals):
     participants = models.EventParticipant.objects.filter(medal__in=medals)
 
     athletes = []
