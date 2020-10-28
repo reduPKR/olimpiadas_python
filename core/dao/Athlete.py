@@ -65,7 +65,8 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
     if name != "" or age != "" or height != "" or weight != "":
         athletes = Athlete.filter_athletes(name, age, height, weight)
 
-    return athletes
+    return intersection(athletes, athletes_medal, athletes_team, athletes_sport, athletes_age, athletes_sex, athletes_event, athletes_games, athletes_city, athletes_season )
+
 
 
 def filter_athletes(name, age, height, weight):
@@ -87,3 +88,24 @@ def filter_athletes(name, age, height, weight):
         list_weight = list(models.Athlete.objects.filter(weight=weight))
 
     return list_name+list_age+list_height+list_weight
+
+def intersection(athletes, athletes_medal, athletes_team, athletes_sport, athletes_age, athletes_sex, athletes_event, athletes_games, athletes_city, athletes_season ):
+    response = intersection_execute(athletes, athletes_medal)
+    response = intersection_execute(response, athletes_team)
+    response = intersection_execute(response, athletes_sport)
+    response = intersection_execute(response, athletes_age)
+    response = intersection_execute(response, athletes_sex)
+    response = intersection_execute(response, athletes_event)
+    response = intersection_execute(response, athletes_games)
+    response = intersection_execute(response, athletes_city)
+    response = intersection_execute(response, athletes_season)
+
+    return response
+
+def intersection_execute(list1, list2):
+    if len(list1) == 0:
+        return list2
+    if len(list2) == 0:
+        return list1
+
+    return [value for value in list1 if value in list2]
