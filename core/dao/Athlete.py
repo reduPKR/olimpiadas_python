@@ -21,6 +21,7 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
     athletes_age = []
     athletes_sex = []
     athletes_event = []
+    athletes_games = []
     athletes_city= []
     athletes_season = []
 
@@ -44,6 +45,10 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
         game_events = GameEvent.filter_by_event(event_id)
         athletes_event = EventParticipants.filter_get_athlete_game_event(game_events)
 
+    if game_id != "0":
+        game_events = GameEvent.filter_by_game_id(game_id)
+        athletes_games = EventParticipants.filter_get_athlete_game_event(game_events)
+
     if city_id != "0":
         games = Game.filter_by_city(city_id)
         if len(games) > 0:
@@ -56,4 +61,4 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
             game_events = GameEvent.filter_by_game(games)
             athletes_season = EventParticipants.filter_get_athlete_game_event(game_events)
 
-    return athletes_season
+    return athletes_games
