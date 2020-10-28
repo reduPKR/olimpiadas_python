@@ -16,3 +16,14 @@ def filter_get_athlete_medals(medals):
             athletes.append(item.athlete)
 
     return athletes
+
+
+def filter_get_athlete_age(age):
+    participants = models.EventParticipant.objects.filter(age=age)
+
+    athletes = []
+    if len(participants) > 0:
+        for item in participants:
+            athletes.append(item.athlete)
+
+    return athletes

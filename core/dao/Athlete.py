@@ -16,6 +16,7 @@ def filter(name, age, height, weight, team_id, game_id, event_id, sport_id, city
     athletes_medal = []
     athletes_team = []
     athletes_sport = []
+    athletes_age = []
 
     if team_id is not "0":
         athletes_team = filter_by_team_id(team_id)
@@ -23,8 +24,11 @@ def filter(name, age, height, weight, team_id, game_id, event_id, sport_id, city
     if sport_id is not "0":
         athletes_sport = filter_by_sport_id(sport_id)
 
+    if age is not "":
+        athletes_age = EventParticipants.filter_get_athlete_age(age)
+
     if gold is not None or silver is not None or bronze is not None:
         medals = Medal.filter(gold, silver, bronze)
         athletes_medal = EventParticipants.filter_get_athlete_medals(medals)
 
-    return athletes_sport
+    return athletes_age
