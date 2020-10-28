@@ -143,9 +143,14 @@ class uploadTests(TestCase):
         athlete = dao.Athlete.get_by_id(1)
         self.assertEqual(athlete.name, "A Dijiang")
 
-        def test_athlete_all_info_get_by_id(self):
-            athlete = dao.Athlete.get_all_info_by_id(1)
-            self.assertEqual(athlete.name, "A Dijiang")
+    def test_athlete_all_info_get_by_id(self):
+        athlete = dao.Athlete.get_all_info_by_id(1)
+        self.assertEqual(athlete.name, "A Dijiang")
+
+    def test_athlete_delete_by_id(self):
+        athlete = dao.Athlete.delete(1)
+        self.assertTrue(athlete)
+        
     # ------------------------------------------------------------------------------------------------
 
     def test_team_list(self):
