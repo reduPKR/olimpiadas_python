@@ -31,18 +31,20 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Otimizaçoes
 - [X] Testes upload
 - [ ] Testes TDD itens abaixo
-- [ ] Tela de visualização de região
+- [X] listar atletas
+- [X] Filtros de busca atleta
 - [ ] Tela de visualização de atleta
-- [ ] Filtros de busca atleta
 - [ ] Cadastrar atleta
 - [ ] Apagar atleta
 - [ ] Atualizar atleta
 - [ ] Filtros de busca região
+- [ ] listar região
+- [ ] Tela de visualização de região
 - [ ] Cadastrar região
 - [ ] Apagar região
 - [ ] Atualizar região
 - [ ] Analise de tempo upload arquivo
-- [ ] Voltar melhrando
+- [ ] Voltar melhorando
 
 ## Analise de tempo  
 Analises relacionadas ao upload e tratamento dos arquivos excel  
