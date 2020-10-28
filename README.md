@@ -7,15 +7,17 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Usuário e senha:** admin
 
 ## Rotas  
-###Paginas  
+#### Paginas  
 
 **Url admin:** 127.0.0.1:8000/admin  
 **Url Home-page:** 127.0.0.1:8000 | 127.0.0.1:8000/ | 127.0.0.1:8000/home/  
 **Url Upload dos arquivos:** 127.0.0.1:8000/upload/   
 **Url listar atletas:** 127.0.0.1:8000/athlete/list/  
 **Url filtrar atletas:** 127.0.0.1:8000/athlete/filter/  
-###Rest  
 
+#### Rest  
+**Url executar upload:** 127.0.0.1:8000/upload/submit  
+**Url executar filtragem atletas:** 127.0.0.1:8000athlete/filter/submit
 
 ## Tarefas
 - [X] Home page

@@ -13,6 +13,7 @@ urlpatterns = [
     path('upload/', page.upload, name="upload_view"),
     path('athlete/list/', page.athlete_list, name="list_athlete_view"),
     path('athlete/filter/', page.athlete_filter, name="filter_athlete_view"),
+    path('athlete/view/', page.athlete_view, name="athlete_view"),
 
     path('upload/submit', upload.upload),
     path('athlete/filter/submit', page.athlete_filter_submit),

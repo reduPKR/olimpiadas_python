@@ -136,33 +136,40 @@ class uploadTests(TestCase):
     # ------------------------------------------------------------------------------------------------
 
     def test_athlete_list(self):
-        lista = dao.athlete.list_all()
+        lista = dao.Athlete.list_all()
         self.assertNotEqual(len(lista), 0)
 
+    def test_athlete_get_by_id(self):
+        athlete = dao.Athlete.get_by_id(1)
+        self.assertEqual(athlete.name, "A Dijiang")
+
+        def test_athlete_all_info_get_by_id(self):
+            athlete = dao.Athlete.get_all_info_by_id(1)
+            self.assertEqual(athlete.name, "A Dijiang")
     # ------------------------------------------------------------------------------------------------
 
     def test_team_list(self):
-        lista = dao.country.list_all()
+        lista = dao.Country.list_all()
         self.assertNotEqual(len(lista), 0)
 
     # ------------------------------------------------------------------------------------------------
 
     def test_game_list(self):
-        lista = dao.game.list_all()
+        lista = dao.Game.list_all()
         self.assertNotEqual(len(lista), 0)
 
     # ------------------------------------------------------------------------------------------------
 
     def test_event_list(self):
-        lista = dao.event.list_all()
+        lista = dao.Event.list_all()
         self.assertNotEqual(len(lista), 0)
 
     # ------------------------------------------------------------------------------------------------
     def test_sport_list(self):
-        lista = dao.sport.list_all()
+        lista = dao.Sport.list_all()
         self.assertNotEqual(len(lista), 0)
 
     # ------------------------------------------------------------------------------------------------
     def test_city_list(self):
-        lista = dao.city.list_all()
+        lista = dao.City.list_all()
         self.assertNotEqual(len(lista), 0)
