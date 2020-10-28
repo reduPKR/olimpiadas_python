@@ -37,14 +37,14 @@ def register_message(error, message, request):
 
 def save_data(athletes, regions, request):
     save_region(regions, request)
-    # save_sports(athletes["Sport"], request)
-    # save_events(athletes[["Sport", "Event"]], request)
-    # save_city(athletes["City"], request)
-    # save_season(athletes["Season"], request)
-    # save_game(athletes[["Year", "Season", "City"]], request)
-    # save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
-    # save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
-    # save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
+    save_sports(athletes["Sport"], request)
+    save_events(athletes[["Sport", "Event"]], request)
+    save_city(athletes["City"], request)
+    save_season(athletes["Season"], request)
+    save_game(athletes[["Year", "Season", "City"]], request)
+    save_game_event(athletes[["Year", "Season", "City", "Event"]], request)
+    save_athlete(athletes[["ID", "Name", "Sex", "Height", "Weight", "NOC", "Sport"]], request)
+    save_event_participants(athletes[["Name", "Sex", "Height", "Weight",  "NOC", "Sport", "Age", "Year", "Season", "City", "Event", "Medal"]], request)
 
 
 def get_in_dataframe(name, column, registered):
