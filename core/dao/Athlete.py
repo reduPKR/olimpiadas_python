@@ -75,7 +75,7 @@ def filter_athletes(name, age, height, weight):
     list_weight = []
 
     if name != "":
-        list_name = list(models.Athlete.objects.filter(name=name))
+        list_name = list(models.Athlete.objects.filter(name__contains=name))
 
     if age != "":
         list_age = list(models.Athlete.objects.filter(age=age))
