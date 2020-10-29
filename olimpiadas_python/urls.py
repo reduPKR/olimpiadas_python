@@ -19,6 +19,7 @@ urlpatterns = [
     path('athlete/participation/<int:id>', page.add_participation, name="participation_athlete_view"),
     path('region/list/', page.region_list, name="list_region_view"),
     path('region/filter/', page.region_filter, name="filter_region_view"),
+    path('region/view/', page.region_view, name="region_view"),
 
     path('upload/submit', upload.upload),
     path('athlete/filter/submit', page.athlete_filter_submit),

@@ -19,7 +19,8 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Url atualizar atletas:** 127.0.0.1:8000/athlete/update/<int:id>  
 **Url adicionar participação de atletas:** 127.0.0.1:8000/athlete/participation/<int:id>  
 **Url listar regiões:** 127.0.0.1:8000/region/list/  
-**Url filtrar regiões:** 127.0.0.1:8000/region/filter/     
+**Url filtrar regiões:** 127.0.0.1:8000/region/filter/  
+**Url visualizar regiões:** 127.0.0.1:8000/region/view/         
 
 #### Rest  
 **Url executar upload:** 127.0.0.1:8000/upload/submit  
@@ -57,7 +58,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Atualizar atleta
 - [X] Filtros de busca região
 - [X] listar região
-- [ ] Tela de visualização de região
+- [X] Tela de visualização de região
 - [ ] Cadastrar região
 - [ ] Apagar região
 - [ ] Atualizar região

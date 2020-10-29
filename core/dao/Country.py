@@ -22,13 +22,13 @@ def filter_region_by_name(name):
     except:
         return []
 
-def filter_region_by_note(note):
+def filter_region_by_note(notes):
     try:
-        return models.Country.objects.filter(note=note)
+        return models.Country.objects.filter(notes=notes)
     except:
         return []
 
-def filter(noc, name, note):
+def filter(noc, name, notes):
     list_noc = []
     list_name = []
     list_note = []
@@ -39,14 +39,14 @@ def filter(noc, name, note):
     if name != "":
         list_name = list(filter_region_by_name(name))
 
-    if note != "":
-        list_note = list(filter_region_by_note(note))
+    if notes != "":
+        list_note = list(filter_region_by_note(notes))
 
     return intersection(list_noc, list_name, list_note)
 
-def intersection(noc, name, note):
+def intersection(noc, name, notes):
     response = intersection_execute(noc, name)
-    response = intersection_execute(response, note)
+    response = intersection_execute(response, notes)
 
     return response
 

@@ -1,0 +1,40 @@
+{% extends  "models/model-page.html" %}
+
+{% block content %}
+    <div align="center">
+        <br>
+        <h4>Visualização de paises</h4>
+        <div class="col col-7 col-sm-7 col-md-4 col-lg-7 col-xs-4 box-gray">
+            <br>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <strong>NOC: </strong>
+                    <label>{{region.noc}}</label>
+                </div>
+                <div class="form-group col-md-6">
+                    <strong>Nome: </strong>
+                    <label>{{region.name}}</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <strong>Notas: </strong>
+                    <label>{{region.notes}}</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <a type="button" type="submit" class="btn btn-danger btn-block" href="#}}/">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </a>
+                </div>
+                <div class="form-group col-md-6">
+                    <a type="button" type="submit" class="btn btn-success btn-block" href="#}">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+{% endblock %}

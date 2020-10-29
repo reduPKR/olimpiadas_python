@@ -280,3 +280,21 @@ def region_filter_submit(request):
 
 def filter_validate_region(noc, name, notes):
     return noc != '' or name != '' or notes != ''
+
+
+def region_view(request):
+    if request.GET and request.GET.get("id"):
+        id = request.GET.get("id")
+
+        region = Country.get_by_id(id)
+        if region is None:
+            region = []
+
+        data = {
+            'title': "Visualizar região",
+            'region': region
+        }
+
+        return render(request, 'region/view.html', data)
+
+    return redirect('/region/filter')
