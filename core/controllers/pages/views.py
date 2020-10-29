@@ -8,6 +8,8 @@ import core.dao.Event as Event
 import core.dao.Sport as Sport
 import core.dao.City as City
 import core.dao.Season as Season
+from core.dao import GameEvent, EventParticipants
+
 
 def home(request):
     data = {
@@ -146,8 +148,6 @@ def create_athlete_submit(request):
     else:
         messages.error(request, "Erro no post")
 
-
-
 def create_athlete_validate(name, height, weight):
     if name != "" and height != "" and weight != "":
         return True
@@ -161,7 +161,6 @@ def message_error(name, height, weight, request):
         messages.error(request, "* Altura não pode estar vazia")
     if weight != "":
         messages.error(request, "* Peso não pode estar vazio")
-
 
 def update_athlete(request, id):
     if id:
@@ -200,3 +199,20 @@ def update_athlete_submit(request):
         messages.error(request, "Erro no post")
 
     return redirect('/athlete/filter')
+
+def add_participation(request, id):
+    if id:
+
+        athlete = Athlete.get_by_id(id)
+        participants = EventParticipants.filter_by_athlete(athlete)
+        games_events = GameEvent.get_did_not_participate(participants)
+
+        data = {
+            'title': "Adicionar participacao em evento",
+            'athlete':athlete,
+            'games_events': games_events
+        }
+
+        return render(request, 'athlete/participation.html', data)
+
+    return  redirect("/athlete/filter/")
