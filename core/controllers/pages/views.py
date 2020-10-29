@@ -245,7 +245,6 @@ def participation_delete(request, athlete, id):
     else:
         messages.error(request, "Atleta nao encontrado")
 
-
 def region_list(request):
     data = {
         'title': "Lista de países",
@@ -253,3 +252,31 @@ def region_list(request):
     }
 
     return render(request, 'region/list.html', data)
+
+def region_filter(request):
+    data = {
+        'title': "Filtrar regiões",
+    }
+
+    return render(request, 'region/filter.html', data)
+
+def region_filter_submit(request):
+    if request.POST:
+        noc = request.POST.get("noc")
+        name = request.POST.get("name")
+        note = request.POST.get("note")
+
+        if filter_validate_region(noc, name, note):
+            data = {
+                'title': "Lista de regioes",
+                'regions': Country.filter(noc, name, note)
+            }
+
+            return render(request, 'region/list.html', data)
+        else:
+            messages.error(request, "Nenhum um filtro selecionado")
+
+    return redirect('/region/filter')
+
+def filter_validate_region(noc, name, notes):
+    return noc != '' or name != '' or notes != ''

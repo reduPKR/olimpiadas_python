@@ -1,0 +1,39 @@
+{% extends  "models/model-page.html" %}
+
+{% block content %}
+    <div align="center">
+        <br>
+        <h3>Filtrar regiões</h3>
+        <div class="col col-5 col-sm-5 col-md-4 col-lg-5 col-xs-4 box-gray">
+            <p>
+                <i class="fas fa-exclamation"></i> Cuidado ao utilizar mais de um filtro filtros<br>
+            </p>
+            {% for message in messages %}
+                <span style="color: red;">* Erro: {{ message }}</span><br>
+            {% endfor %}
+            <form action="submit" method="POST"> {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>NOC: </label>
+                        <input type="text" name="noc" maxlength="3"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Name: </label>
+                        <input type="text" name="name" maxlength="60"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label>Nota: </label>
+                        <input type="text" name="note" maxlength="100"/>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-secondary btn-lg btn-block" type="submit">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+            </form>
+            <br>
+        </div>
+    </div>
+{% endblock %}
