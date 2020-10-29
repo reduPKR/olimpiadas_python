@@ -23,4 +23,5 @@ urlpatterns = [
     path('athlete/delete/<int:id>/', page.athlete_delete),
     path('athlete/create/submit', page.create_athlete_submit),
     path('athlete/update/submit', page.update_athlete_submit),
+    path('athlete/participation/submit', page.participation_athlete_submit),
 ]

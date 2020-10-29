@@ -8,3 +8,9 @@ def filter(gold, silver, bronze):
         return list(medals)
     return None
 
+
+def get_by_id(id):
+    try:
+        return models.Medal.objects.get(id=id)
+    except:
+        return None

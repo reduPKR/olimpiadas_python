@@ -45,3 +45,15 @@ def filter_by_athlete(athlete):
     if len(events) > 0:
         return list(events)
     return []
+
+
+def create(athlete, age, game_event, medal):
+    try:
+        models.EventParticipant.objects.create(
+            age=age,
+            game_event= game_event,
+            athlete= athlete,
+            medal= medal,
+        )
+    except:
+        return None

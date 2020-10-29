@@ -44,3 +44,10 @@ def diference(list1, list2):
         return list1
 
     return [value for value in list1 if value not in list2]
+
+
+def get_by_id(id):
+    try:
+        return models.GameEvents.objects.get(id=id)
+    except:
+        return None

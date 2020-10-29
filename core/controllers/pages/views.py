@@ -8,7 +8,7 @@ import core.dao.Event as Event
 import core.dao.Sport as Sport
 import core.dao.City as City
 import core.dao.Season as Season
-from core.dao import GameEvent, EventParticipants
+from core.dao import GameEvent, EventParticipants, Medal
 
 
 def home(request):
@@ -215,4 +215,23 @@ def add_participation(request, id):
 
         return render(request, 'athlete/participation.html', data)
 
-    return  redirect("/athlete/filter/")
+    return redirect("/athlete/filter/")
+
+
+def participation_athlete_submit(request):
+    if request.POST and request.POST.get("id"):
+        id = request.POST.get("id")
+        age = request.POST.get("age")
+        game_event_id = request.POST.get("game_event_id")
+        medal_id = request.POST.get("medal_id")
+
+        if age != "":
+            athlete = Athlete.get_by_id(id)
+            game_event = GameEvent.get_by_id(game_event_id)
+            medal = Medal.get_by_id(medal_id)
+
+            EventParticipants.create(athlete, age, game_event, medal)
+        else:
+            messages.error(request, "* Idade não pode estar vazia")
+
+    return redirect("/athlete/filter/")
