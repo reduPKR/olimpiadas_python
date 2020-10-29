@@ -281,7 +281,6 @@ def region_filter_submit(request):
 def filter_validate_region(noc, name, notes):
     return noc != '' or name != '' or notes != ''
 
-
 def region_view(request):
     if request.GET and request.GET.get("id"):
         id = request.GET.get("id")
@@ -298,3 +297,42 @@ def region_view(request):
         return render(request, 'region/view.html', data)
 
     return redirect('/region/filter')
+
+def create_region(request):
+    data = {
+        'title': "Cadastrar país",
+        'title_h': "Cadastro",
+        'region': None,
+    }
+
+    return render(request, 'region/create.html', data)
+
+def create_region_submit(request):
+    if request.POST:
+        noc = request.POST.get("noc")
+        name = request.POST.get("name")
+        notes = request.POST.get("notes")
+
+        if create_region_validate(noc, name):
+            pass
+            # athlete = Athlete.create(name, height, weight, sex, team_id, sport_id)
+            #
+            # if athlete is None:
+            #     messages.error(request, "Erro no cadastro")
+            # else:
+            #     return redirect("/athlete/view/?id={}".format(athlete.id))
+        else:
+            message_error_region(noc, name, request)
+
+        return redirect('/region/create')
+    else:
+        messages.error(request, "Erro no post")
+
+def create_region_validate(noc, name):
+    return not (noc == '' or name == '')
+
+def message_error_region(noc, name, request):
+    if noc != "":
+        messages.error(request, "* NOC não pode estar vazio")
+    if name != "":
+        messages.error(request, "* Nome não pode estar vazio")

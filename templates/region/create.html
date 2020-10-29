@@ -1,0 +1,61 @@
+{% extends  "models/model-page.html" %}
+
+{% block content %}
+    <div align="center">
+        <br>
+        <h3>{{title_h}}</h3>
+        <div class="col col-5 col-sm-5 col-md-4 col-lg-5 col-xs-4 box-gray">
+            <br>
+            {% for message in messages %}
+                <span style="color: red;">* Erro: {{ message }}</span><br>
+            {% endfor %}
+            <form action="submit" method="POST"> {% csrf_token %}
+                {% if region == None%}
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label>NOC: </label>
+                            <input type="text" name="noc" maxlength="3">
+                        </div>
+                         <div class="form-group col-6">
+                            <label>Nome: </label>
+                            <input type="text" name="name" maxlength="60">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                         <div class="form-group col-6">
+                            <label>Descrição: </label>
+                            <input type="text" name="notes" maxlength="60">
+                        </div>
+                    </div>
+                {% else %}
+                    <input name="id" value="{{athlete.id}}" hidden>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label>NOC: </label>
+                            <input type="text" name="noc" value="{{region.noc}}" maxlength="3">
+                        </div>
+                         <div class="form-group col-6">
+                            <label>Nome: </label>
+                            <input type="text" name="name" value="{{region.name}}" maxlength="60">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                         <div class="form-group col-6">
+                            <label>Descrição: </label>
+                            <input type="text" name="notes" value="{{region.notes}}" maxlength="60">
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <button class="btn btn-secondary btn-lg btn-block" type="submit">
+                    {% if region == None%}
+                        <i class="fas fa-map-marked"></i> Cadastrar
+                    {% else %}
+                        <i class="fas fa-edit"></i> Atualizar
+                    {% endif %}
+                </button>
+            </form>
+            <br>
+        </div>
+    </div>
+{% endblock %}

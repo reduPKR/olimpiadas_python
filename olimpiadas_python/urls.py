@@ -20,6 +20,7 @@ urlpatterns = [
     path('region/list/', page.region_list, name="list_region_view"),
     path('region/filter/', page.region_filter, name="filter_region_view"),
     path('region/view/', page.region_view, name="region_view"),
+    path('region/create/', page.create_region, name="create_region_view"),
 
     path('upload/submit', upload.upload),
     path('athlete/filter/submit', page.athlete_filter_submit),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('athlete/participation/submit', page.participation_athlete_submit),
     path('athlete/<int:athlete>/participation/delete/<int:id>/', page.participation_delete),
     path('region/filter/submit', page.region_filter_submit),
+    path('region/create/submit', page.create_region_submit),
 ]
