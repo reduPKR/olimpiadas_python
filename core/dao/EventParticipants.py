@@ -57,3 +57,13 @@ def create(athlete, age, game_event, medal):
         )
     except:
         return None
+
+
+def delete(id):
+    try:
+        participant = models.EventParticipant.objects.get(id=id)
+        if participant:
+            participant.delete()
+            return True
+    except:
+        return False

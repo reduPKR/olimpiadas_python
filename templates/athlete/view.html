@@ -56,6 +56,7 @@
                             <th scope="col">Cidade</th>
                             <th scope="col">Medalha</th>
                             <th scope="col">Evento</th>
+                            <th scope="col">Deletar</th>
                         </tr>
                     </thead>
                         <tbody>
@@ -80,6 +81,11 @@
                                     </td>
                                     <td>
                                         {{item.game_event.event.name}}
+                                    </td>
+                                    <td>
+                                         <a type="button" type="submit" class="btn btn-danger" href="/athlete/{{athlete.id}}/participation/delete/{{item.id}}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}

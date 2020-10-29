@@ -217,7 +217,6 @@ def add_participation(request, id):
 
     return redirect("/athlete/filter/")
 
-
 def participation_athlete_submit(request):
     if request.POST and request.POST.get("id"):
         id = request.POST.get("id")
@@ -236,3 +235,12 @@ def participation_athlete_submit(request):
             messages.error(request, "* Idade não pode estar vazia")
 
     return redirect("/athlete/filter/")
+
+def participation_delete(request, athlete, id):
+    if id:
+        if EventParticipants.delete(id) is False:
+            messages.error(request, "Erro durante a exclusão")
+
+        return redirect("/athlete/view/?id={}".format(athlete))
+    else:
+        messages.error(request, "Atleta nao encontrado")
