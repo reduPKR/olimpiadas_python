@@ -1,0 +1,50 @@
+{% extends  "models/model-page.html" %}
+
+{% block content %}
+    <div align="center">
+        <br>
+        <h3>Adicionar participção</h3>
+        <div class="col col-5 col-sm-5 col-md-4 col-lg-5 col-xs-4 box-gray">
+            <br>
+            {% for message in messages %}
+                <span style="color: red;">* Erro: {{ message }}</span><br>
+            {% endfor %}
+            <form action="/athlete/participation/submit" method="POST"> {% csrf_token %}
+                <input name="id" value="{{athlete.id}}" hidden>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Nome: </label>
+                        <label>{{athlete.name}}</label>
+                    </div>
+                     <div class="form-group col-md-4">
+                        <label>Idade durante o evento: </label>
+                        <input type="number" name="age" value="18" min="18" max="50" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <select class="form-control" name="game_event_id" value="1">
+                             {% for item in games_events %}
+                                <option value={{ item.id }}> Jogos: {{ item.game.year }} {{ item.game.season.name }}
+                                    Evento: {{ item.event.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <select class="form-control" name="medal_id" value="0">
+                            <option value="0">Nenhuma medalha</option>
+                            <option value="1">Medalha de OURO</option>
+                            <option value="2">Medalha de PRATA</option>
+                            <option value="3">Medalha de BRONZE</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-secondary btn-lg btn-block" type="submit">
+                    <i class="fas fa-trophy"></i> Cadastrar
+                </button>
+            </form>
+            <br>
+        </div>
+    </div>
+{% endblock %}

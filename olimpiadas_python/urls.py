@@ -16,10 +16,13 @@ urlpatterns = [
     path('athlete/view/', page.athlete_view, name="athlete_view"),
     path('athlete/create/', page.create_athlete, name="create_athlete_view"),
     path('athlete/update/<int:id>', page.update_athlete, name="create_athlete_view"),
+    path('athlete/participation/<int:id>', page.add_participation, name="participation_athlete_view"),
 
     path('upload/submit', upload.upload),
     path('athlete/filter/submit', page.athlete_filter_submit),
     path('athlete/delete/<int:id>/', page.athlete_delete),
     path('athlete/create/submit', page.create_athlete_submit),
     path('athlete/update/submit', page.update_athlete_submit),
+    path('athlete/participation/submit', page.participation_athlete_submit),
+    path('athlete/<int:athlete>/participation/delete/<int:id>/', page.participation_delete),
 ]
