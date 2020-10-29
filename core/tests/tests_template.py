@@ -129,3 +129,17 @@ class TemplatesViewTests(TestCase):
     def test_template_regions_view_not_exists(self):
         response = self.client.get(reverse("home_view"))
         self.assertTemplateNotUsed(response, "region/view.html")
+
+    # --------------------------------------------------------------------------------------------------
+
+    def test_template_regions_create_status_ok(self):
+        response = self.client.get(reverse("region_create"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_regions_create(self):
+        response = self.client.get(reverse("region_create"))
+        self.assertTemplateUsed(response, "region/create.html")
+
+    def test_template_regions_create_not_exists(self):
+        response = self.client.get(reverse("home_view"))
+        self.assertTemplateNotUsed(response, "region/create.html")
