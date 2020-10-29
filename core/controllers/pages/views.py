@@ -164,11 +164,14 @@ def upgrade_athlete(request, id):
         data = {
             'title': "Alterar atleta",
             'title_h': "Atualização",
-            'athlete': Athlete.get_by_id(id)
+            'athlete': Athlete.get_by_id(id),
+            'team': Country.list_all(),
+            'sport': Sport.list_all(),
         }
 
     return render(request, 'athlete/create.html', data)
 
 
-def upgrade_athlete_submit():
-    return None
+def upgrade_athlete_submit(request):
+    
+    return redirect('/athlete/filter')

@@ -50,7 +50,56 @@
                         </div>
                     </div>
                 {% else %}
-                    <label>Form de cadastro</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nome: </label>
+                            <input type="text" name="name" value="{{athlete.name}}" maxlength="60" size="60" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Altura: </label>
+                            <input type="number" name="height" value="{{athlete.height}}" value="170" min="50" max="400" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Peso: </label>
+                            <input type="number" name="weight" value="{{athlete.weight}}" value="70" min="50" max="200" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select class="form-control" name="sex" value="{{athlete.sex}}">
+                                <option value="M"> Masculino </option>
+                                <option value="F"> Feminino </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <select class="form-control" name="team_id" value="{{athlete.team.id}}">
+                                 {% for item in team %}
+                                    {% if item.id == athlete.team.id %}
+                                        <option value={{ item.id }} selected> Time: {{ item.noc }} Pais: {{ item.name }} </option>
+                                    {% else %}
+                                        <option value={{ item.id }}> Time: {{ item.noc }} Pais: {{ item.name }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <select class="form-control" name="sport_id" value="{{athlete.sport.id}}">
+                                {% for item in sport %}
+                                    <option value={{ item.id }}> {{ item.name }} </option>
+                                {% endfor %}
+
+                                {% for item in sport %}
+                                    {% if item.id == athlete.sport.id %}
+                                        <option value={{ item.id }} selected> {{ item.name }} </option>
+                                    {% else %}
+                                        <option value={{ item.id }}> {{ item.name }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
                 {% endif %}
                 <br>
                 <button class="btn btn-secondary btn-lg btn-block" type="submit">
