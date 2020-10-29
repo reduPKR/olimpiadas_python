@@ -145,3 +145,17 @@ def create(name, height, weight, sex, team_id, sport_id):
         )
     except:
         return None
+
+
+def update(id, name, height, weight, sex, team_id, sport_id):
+    try:
+        return models.Athlete.objects.filter(id=id).update(
+            name=name,
+            sex=sex,
+            height=height,
+            weight=weight,
+            team=Country.get_by_id(team_id),
+            sport=Sport.get_by_id(sport_id)
+        )
+    except:
+        return None

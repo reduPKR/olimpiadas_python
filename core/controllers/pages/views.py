@@ -141,8 +141,12 @@ def create_athlete_submit(request):
                 return redirect("/athlete/view/?id={}".format(athlete.id))
         else:
             message_error(name, height, weight, request)
+
+        return redirect('/athlete/create')
     else:
         messages.error(request, "Erro no post")
+
+
 
 def create_athlete_validate(name, height, weight):
     if name != "" and height != "" and weight != "":
@@ -159,7 +163,7 @@ def message_error(name, height, weight, request):
         messages.error(request, "* Peso não pode estar vazio")
 
 
-def upgrade_athlete(request, id):
+def update_athlete(request, id):
     if id:
         data = {
             'title': "Alterar atleta",
@@ -171,7 +175,28 @@ def upgrade_athlete(request, id):
 
     return render(request, 'athlete/create.html', data)
 
+def update_athlete_submit(request):
+    if request.POST and request.POST.get("id"):
+        id = request.POST.get("id")
+        name = request.POST.get("name")
+        height = request.POST.get("height")
+        weight = request.POST.get("weight")
+        sex = request.POST.get("sex")
+        team_id = request.POST.get("team_id")
+        sport_id = request.POST.get("sport_id")
 
-def upgrade_athlete_submit(request):
-    
+        if create_athlete_validate(name, height, weight):
+            athlete = Athlete.update(id, name, height, weight, sex, team_id, sport_id)
+
+            if athlete is None:
+                messages.error(request, "Erro na atualização")
+            else:
+                return redirect("/athlete/view/?id={}".format(id))
+        else:
+            message_error(name, height, weight, request)
+
+        return redirect('/athlete/update/{}'.format(id))
+    else:
+        messages.error(request, "Erro no post")
+
     return redirect('/athlete/filter')
