@@ -18,6 +18,8 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Url criar atletas:** 127.0.0.1:8000/athlete/create  
 **Url atualizar atletas:** 127.0.0.1:8000/athlete/update/<int:id>  
 **Url adicionar participação de atletas:** 127.0.0.1:8000/athlete/participation/<int:id>  
+**Url listar regiões:** 127.0.0.1:8000/region/list/  
+**Url filtrar regiões:** 127.0.0.1:8000/region/filter/     
 
 #### Rest  
 **Url executar upload:** 127.0.0.1:8000/upload/submit  
@@ -26,7 +28,8 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Url executar criação do atleta:** 127.0.0.1:8000/athlete/create/submit    
 **Url executar atualizaçao atletas:** 127.0.0.1:8000/athlete/update/submit  
 **Url executar cadatro de participação:** 127.0.0.1:8000/athlete/participation/submit  
-**Url executar deletar participação:**  127.0.0.1:8000/athlete/<int:athlete>/participation/delete/<int:id>
+**Url executar deletar participação:**  127.0.0.1:8000/athlete/<int:athlete>/participation/delete/<int:id>  
+**Url executar filtragem regiões:** 127.0.0.1:8000/region/filter/submit   
 
 ## Tarefas
 - [X] Home page
@@ -52,14 +55,14 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Cadastrar atleta
 - [X] Apagar atleta
 - [X] Atualizar atleta
-- [ ] Filtros de busca região
-- [ ] listar região
+- [X] Filtros de busca região
+- [X] listar região
 - [ ] Tela de visualização de região
 - [ ] Cadastrar região
 - [ ] Apagar região
 - [ ] Atualizar região
 - [ ] Analise de tempo upload arquivo
-- [ ] Voltar melhorando
+- [ ] Voltar melhorando (Upload esta despatronizado)
 - [ ] Adicionar paginação no atleta
 
 ## Analise de tempo  
