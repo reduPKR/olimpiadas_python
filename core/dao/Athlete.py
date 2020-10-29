@@ -67,8 +67,6 @@ def filter(name, age, height, weight, sex, team_id, game_id, event_id, sport_id,
 
     return intersection(athletes, athletes_medal, athletes_team, athletes_sport, athletes_age, athletes_sex, athletes_event, athletes_games, athletes_city, athletes_season )
 
-
-
 def filter_athletes(name, age, height, weight):
     list_name = []
     list_age = []
@@ -122,7 +120,6 @@ def get_all_info_by_id(id):
 
     return athlete
 
-
 def delete(id):
     try:
         athlete = models.Athlete.objects.get(id=id)
@@ -131,7 +128,6 @@ def delete(id):
             return True
     except:
         return False
-
 
 def create(name, height, weight, sex, team_id, sport_id):
     try:
@@ -145,7 +141,6 @@ def create(name, height, weight, sex, team_id, sport_id):
         )
     except:
         return None
-
 
 def update(id, name, height, weight, sex, team_id, sport_id):
     try:

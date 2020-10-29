@@ -110,9 +110,11 @@ def athlete_delete(request,id):
     if id:
         if Athlete.delete(id) is False:
             messages.error(request, "Erro durante a exclusão")
-        return redirect("/athlete/list/")
+        else:
+            return redirect("/athlete/list/")
     else:
         messages.error(request, "Atleta nao encontrado")
+    return redirect("/athlete/view/?id={}".format(id))
 
 def create_athlete(request):
     data = {
@@ -337,7 +339,57 @@ def create_region_validate(noc, name):
     return not (noc == '' or name == '')
 
 def message_error_region(noc, name, request):
-    if noc != "":
+    if noc == "":
         messages.error(request, "* NOC não pode estar vazio")
-    if name != "":
+    if name == "":
         messages.error(request, "* Nome não pode estar vazio")
+
+def region_delete(request,id):
+    if id:
+        if Country.delete(id) is False:
+            messages.error(request, "Erro durante a exclusão")
+        else:
+            return redirect("/region/list/")
+    else:
+        messages.error(request, "País não encontrado")
+    return redirect("/region/view/?id={}".format(id))
+
+def update_region(request, id):
+    if id:
+        data = {
+            'title': "Alterar país",
+            'title_h': "Atualização",
+            'region': Country.get_by_id(id)
+        }
+
+    return render(request, 'region/create.html', data)
+
+def update_region_submit(request):
+    if request.POST and request.POST.get("id"):
+        id = request.POST.get("id")
+        noc = request.POST.get("noc")
+        name = request.POST.get("name")
+        notes = request.POST.get("notes")
+
+        country = Country.get_by_id(id)
+        if create_region_validate(noc, name):
+            if (country.noc == noc) or (Country.get_region_by_noc(noc) == None):
+                if (country.name == name) or (Country.get_region_by_name(name) == None):
+                    country = Country.update(id, noc, name, notes)
+
+                    if country is None:
+                        messages.error(request, "Erro no cadastro")
+                    else:
+                        return redirect("/region/view/?id={}".format(id))
+                else:
+                    messages.error(request, "País ja registrado")
+            else:
+                messages.error(request, "NOC ja registrado")
+        else:
+            message_error_region(noc, name, request)
+
+        return redirect('/region/update/{}'.format(id))
+    else:
+        messages.error(request, "Erro no post")
+
+    return redirect('/region/create')

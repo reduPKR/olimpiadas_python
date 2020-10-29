@@ -73,5 +73,25 @@ def create(noc, name, notes):
     return models.Country.objects.create(
         noc=noc,
         name=name,
-        notes= notes
+        notes=notes
     )
+
+def delete(id):
+    try:
+        country = models.Country.objects.get(id=id)
+        if country:
+            country.delete()
+            return True
+    except:
+        return False
+
+
+def update(id, noc, name, notes):
+    try:
+        return models.Country.objects.filter(id=id).update(
+            noc=noc,
+            name=name,
+            notes=notes
+        )
+    except:
+        return None

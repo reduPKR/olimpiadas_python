@@ -20,8 +20,10 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Url adicionar participação de atletas:** 127.0.0.1:8000/athlete/participation/<int:id>  
 **Url listar regiões:** 127.0.0.1:8000/region/list/  
 **Url filtrar regiões:** 127.0.0.1:8000/region/filter/  
-**Url visualizar regiões:** 127.0.0.1:8000/region/view/         
-
+**Url visualizar regiões:** 127.0.0.1:8000/region/view/  
+**Url Criar nova regiao:** 127.0.0.1:8000/region/create/  
+**Url Update de regiões:** 127.0.0.1:8000/region/update/<int:id>'  
+    
 #### Rest  
 **Url executar upload:** 127.0.0.1:8000/upload/submit  
 **Url executar filtragem atletas:** 127.0.0.1:8000/athlete/filter/submit  
@@ -30,7 +32,10 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 **Url executar atualizaçao atletas:** 127.0.0.1:8000/athlete/update/submit  
 **Url executar cadatro de participação:** 127.0.0.1:8000/athlete/participation/submit  
 **Url executar deletar participação:**  127.0.0.1:8000/athlete/<int:athlete>/participation/delete/<int:id>  
-**Url executar filtragem regiões:** 127.0.0.1:8000/region/filter/submit   
+**Url executar filtragem regiões:** 127.0.0.1:8000/region/filter/submit  
+**Url executar a exclusão regiões:** 127.0.0.1:8000/region/delete/<int:id>  
+**Url executar a criação regiões:** 127.0.0.1:8000/region/create/submit  
+**Url executar a atualizacão regiões:** 127.0.0.1:8000/region/update/submit     
 
 ## Tarefas
 - [X] Home page
@@ -59,9 +64,9 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Filtros de busca região
 - [X] listar região
 - [X] Tela de visualização de região
-- [ ] Cadastrar região
-- [ ] Apagar região
-- [ ] Atualizar região
+- [X] Cadastrar região
+- [X] Apagar região
+- [X] Atualizar região
 - [ ] Analise de tempo upload arquivo
 - [ ] Voltar melhorando (Upload esta despatronizado)
 - [ ] Adicionar paginação no atleta
