@@ -31,7 +31,7 @@ def filter_region_by_note(note):
 def filter(noc, name, note):
     list_noc = []
     list_name = []
-    list_notes = []
+    list_note = []
 
     if noc != "":
         list_noc = list(filter_region_by_noc(noc))
@@ -42,7 +42,7 @@ def filter(noc, name, note):
     if note != "":
         list_note = list(filter_region_by_note(note))
 
-    return intersection(list_noc, list_name, list_notes)
+    return intersection(list_noc, list_name, list_note)
 
 def intersection(noc, name, note):
     response = intersection_execute(noc, name)
