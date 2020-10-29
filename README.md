@@ -80,3 +80,40 @@ Analises relacionadas ao upload e tratamento dos arquivos excel
 ## Modelo do banco de dados  
 
 ![image](https://user-images.githubusercontent.com/56879793/97129878-b6e74680-171e-11eb-992d-798cbc177b9a.png)
+  
+## Telas do sistema
+
+#### Home page  
+![image](https://user-images.githubusercontent.com/56879793/97598406-b0d6bb80-19e5-11eb-8f71-2987b1decf04.png)  
+
+#### Upload de arquivos  
+![image](https://user-images.githubusercontent.com/56879793/97598789-1460e900-19e6-11eb-85c4-3701daab4ebe.png)  
+
+#### Criar/Atualizar Atleta  
+![image](https://user-images.githubusercontent.com/56879793/97599044-59851b00-19e6-11eb-84b0-870efe216fe2.png)  
+
+#### Filtagem de atletas  
+![image](https://user-images.githubusercontent.com/56879793/97599482-d2847280-19e6-11eb-9024-bc238ec0fd9f.png)  
+
+#### Listagem de atletas (imagem sem passar por filtragem)  
+![image](https://user-images.githubusercontent.com/56879793/97599733-0fe90000-19e7-11eb-8275-13c0b2c65bbf.png)
+
+#### Visualizar atleta   
+![image](https://user-images.githubusercontent.com/56879793/97599998-5a6a7c80-19e7-11eb-8b5f-d702f14b8bb2.png)  
+
+#### Registrar participação de atleta em evento   
+![image](https://user-images.githubusercontent.com/56879793/97600141-8423a380-19e7-11eb-82b6-db83fabb4496.png)  
+
+#### Cadastrar/atualizar país/região   
+![image](https://user-images.githubusercontent.com/56879793/97600330-b33a1500-19e7-11eb-9ef0-9c48f769164c.png)  
+
+#### Filtro de países  
+![image](https://user-images.githubusercontent.com/56879793/97600493-e1b7f000-19e7-11eb-917d-11b8a34dcfa7.png)  
+
+#### Lista de países  
+![image](https://user-images.githubusercontent.com/56879793/97600727-204daa80-19e8-11eb-9eed-0565637de873.png)  
+
+#### Visualização de país  
+![image](https://user-images.githubusercontent.com/56879793/97600868-48d5a480-19e8-11eb-8eb1-4f3b376728c8.png)  
+
+
