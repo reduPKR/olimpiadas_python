@@ -74,14 +74,28 @@ class TemplatesViewTests(TestCase):
 
     # --------------------------------------------------------------------------------------------------
 
-        def test_template_athlete_create_status_ok(self):
-            response = self.client.get(reverse("create_athlete_view"))
-            self.assertEqual(response.status_code, 200)
+    def test_template_athlete_create_status_ok(self):
+        response = self.client.get(reverse("create_athlete_view"))
+        self.assertEqual(response.status_code, 200)
 
-        def test_template_athlete_create(self):
-            response = self.client.get(reverse("create_athlete_view"))
-            self.assertTemplateUsed(response, "athlete/create.html")
+    def test_template_athlete_create(self):
+        response = self.client.get(reverse("create_athlete_view"))
+        self.assertTemplateUsed(response, "athlete/create.html")
 
-        def test_template_athlete_create_not_exists(self):
-            response = self.client.get(reverse("home_view"))
-            self.assertTemplateNotUsed(response, "athlete/create.html")
+    def test_template_athlete_create_not_exists(self):
+        response = self.client.get(reverse("home_view"))
+        self.assertTemplateNotUsed(response, "athlete/create.html")
+
+    # --------------------------------------------------------------------------------------------------
+
+    def test_template_athlete_update_status_ok(self):
+        response = self.client.get(reverse("create_athlete_view"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_athlete_update(self):
+        response = self.client.get(reverse("create_athlete_view"))
+        self.assertTemplateUsed(response, "athlete/create.html")
+
+    def test_template_athlete_update_not_exists(self):
+        response = self.client.get(reverse("home_view"))
+        self.assertTemplateNotUsed(response, "athlete/create.html")
