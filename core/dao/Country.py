@@ -1,4 +1,5 @@
 from core import models
+import pandas as pd
 
 def list_all():
     return list(models.Country.objects.all().order_by('noc'))
@@ -85,7 +86,6 @@ def delete(id):
     except:
         return False
 
-
 def update(id, noc, name, notes):
     try:
         return models.Country.objects.filter(id=id).update(
@@ -95,3 +95,7 @@ def update(id, noc, name, notes):
         )
     except:
         return None
+
+def get_registered_regions():
+    regions = models.Country.objects.all()
+    return pd.DataFrame(list(regions.values()))

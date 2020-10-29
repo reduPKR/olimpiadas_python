@@ -14,3 +14,9 @@ def get_by_id(id):
         return models.Medal.objects.get(id=id)
     except:
         return None
+
+def get_medal(name):
+    try:
+        return models.Medal.objects.get(name= name)
+    except:
+        None

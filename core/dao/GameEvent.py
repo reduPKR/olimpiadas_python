@@ -1,4 +1,5 @@
 from core import models
+import pandas as pd
 
 def filter_by_event(event_id):
     game_events = models.GameEvents.objects.filter(event=event_id)
@@ -29,12 +30,10 @@ def get_all():
 
     return []
 
-
 def get_did_not_participate(participants):
     game_events = list(models.GameEvents.objects.all())
     new_list = diference(participants, game_events)
     return sorted(new_list, key=lambda k: (k.game.year, k.event.name))
-
 
 def diference(list1, list2):
     if len(list1) == 0:
@@ -44,9 +43,24 @@ def diference(list1, list2):
 
     return [value for value in list2 if value not in list1]
 
-
 def get_by_id(id):
     try:
         return models.GameEvents.objects.get(id=id)
     except:
         return None
+
+def get_registered_games_event():
+    games_events = models.GameEvents.objects.all()
+    return pd.DataFrame(list(games_events.values()))
+
+def get_game_event_by_id(game_event_id):
+    try:
+        return models.GameEvents.objects.get(id = game_event_id )
+    except:
+        return None
+
+def create(game, event):
+    return models.GameEvents.objects.create(
+        game=game,
+        event=event
+    )

@@ -1,4 +1,5 @@
 from core import models
+import pandas as pd
 
 def filter_by_medals(medals):
     participants = models.EventParticipant.objects.filter(medal__in=medals)
@@ -38,14 +39,12 @@ def filter_get_athlete_game_event(game_events):
 
     return athletes
 
-
 def filter_by_athlete(athlete):
     events = models.EventParticipant.objects.filter(athlete=athlete)
 
     if len(events) > 0:
         return list(events)
     return []
-
 
 def create(athlete, age, game_event, medal):
     try:
@@ -58,7 +57,6 @@ def create(athlete, age, game_event, medal):
     except:
         return None
 
-
 def delete(id):
     try:
         participant = models.EventParticipant.objects.get(id=id)
@@ -67,3 +65,15 @@ def delete(id):
             return True
     except:
         return False
+
+def get_registered_game_event_participant():
+    participant = models.EventParticipant.objects.all()
+    return pd.DataFrame(list(participant.values()))
+
+def create(athlete, age, game_event, medal):
+    return models.EventParticipant.objects.create(
+        age=age,
+        game_event=game_event,
+        athlete=athlete,
+        medal=medal
+    )

@@ -1,6 +1,8 @@
 from core import models
 from core.dao import Medal, EventParticipants, GameEvent, Game, Athlete, Country, Sport
 
+import pandas as pd
+
 
 def list_all():
     return models.Athlete.objects.all().order_by('name')
@@ -154,3 +156,7 @@ def update(id, name, height, weight, sex, team_id, sport_id):
         )
     except:
         return None
+
+def get_registered_athlete():
+    athlete = models.Athlete.objects.all()
+    return pd.DataFrame(list(athlete.values()))

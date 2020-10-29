@@ -68,7 +68,7 @@ Projeto proposto utilizando Django e Python, onde tenho que realizar a leitura d
 - [X] Apagar região
 - [X] Atualizar região
 - [ ] Analise de tempo upload arquivo
-- [ ] Voltar melhorando (Upload esta despatronizado)
+- [X] Voltar melhorando (Upload esta despatronizado)
 - [ ] Adicionar paginação no atleta
 
 ## Analise de tempo  
