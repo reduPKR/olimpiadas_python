@@ -157,3 +157,18 @@ def message_error(name, height, weight, request):
         messages.error(request, "* Altura não pode estar vazia")
     if weight != "":
         messages.error(request, "* Peso não pode estar vazio")
+
+
+def upgrade_athlete(request, id):
+    if id:
+        data = {
+            'title': "Alterar atleta",
+            'title_h': "Atualização",
+            'athlete': Athlete.get_by_id(id)
+        }
+
+    return render(request, 'athlete/create.html', data)
+
+
+def upgrade_athlete_submit():
+    return None
