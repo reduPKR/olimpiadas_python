@@ -91,11 +91,11 @@ class TemplatesViewTests(TestCase):
     # --------------------------------------------------------------------------------------------------
 
     def test_template_regions_list_status_ok(self):
-        response = self.client.get(reverse("list_regions_view"))
+        response = self.client.get(reverse("list_region_view"))
         self.assertEqual(response.status_code, 200)
 
     def test_template_regions_list(self):
-        response = self.client.get(reverse("list_regions_view"))
+        response = self.client.get(reverse("list_region_view"))
         self.assertTemplateUsed(response, "region/list.html")
 
     def test_template_regions_list_not_exists(self):

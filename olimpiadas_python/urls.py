@@ -17,6 +17,7 @@ urlpatterns = [
     path('athlete/create/', page.create_athlete, name="create_athlete_view"),
     path('athlete/update/<int:id>', page.update_athlete, name="create_athlete_view"),
     path('athlete/participation/<int:id>', page.add_participation, name="participation_athlete_view"),
+    path('region/list/', page.region_list, name="list_region_view"),
 
     path('upload/submit', upload.upload),
     path('athlete/filter/submit', page.athlete_filter_submit),

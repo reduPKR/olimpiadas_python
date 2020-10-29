@@ -244,3 +244,12 @@ def participation_delete(request, athlete, id):
         return redirect("/athlete/view/?id={}".format(athlete))
     else:
         messages.error(request, "Atleta nao encontrado")
+
+
+def region_list(request):
+    data = {
+        'title': "Lista de países",
+        'regions': Country.list_all()
+    }
+
+    return render(request, 'region/list.html', data)
