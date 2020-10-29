@@ -138,7 +138,7 @@ def create_athlete_submit(request):
             if athlete is None:
                 messages.error(request, "Erro no cadastro")
             else:
-                return redirect("/athlete/create/")
+                return redirect("/athlete/view/?id={}".format(athlete.id))
         else:
             message_error(name, height, weight, request)
     else:
