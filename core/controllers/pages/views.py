@@ -314,13 +314,18 @@ def create_region_submit(request):
         notes = request.POST.get("notes")
 
         if create_region_validate(noc, name):
-            pass
-            # athlete = Athlete.create(name, height, weight, sex, team_id, sport_id)
-            #
-            # if athlete is None:
-            #     messages.error(request, "Erro no cadastro")
-            # else:
-            #     return redirect("/athlete/view/?id={}".format(athlete.id))
+            if Country.get_region_by_noc(noc) == None:
+                if Country.get_region_by_name(name) == None:
+                    country = Country.create(noc, name, notes)
+
+                    if country is None:
+                        messages.error(request, "Erro no cadastro")
+                    else:
+                        return redirect("/region/view/?id={}".format(country.id))
+                else:
+                    messages.error(request, "País ja registrado")
+            else:
+                messages.error(request, "NOC ja registrado")
         else:
             message_error_region(noc, name, request)
 

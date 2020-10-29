@@ -3,12 +3,23 @@ from core import models
 def list_all():
     return list(models.Country.objects.all().order_by('noc'))
 
-
 def get_by_id(id):
     try:
         return models.Country.objects.get(id=id)
     except:
         None
+
+def get_region_by_noc(noc):
+    try:
+        return models.Country.objects.get(noc=noc)
+    except:
+        return None
+
+def get_region_by_name(name):
+    try:
+        return models.Country.objects.get(name=name)
+    except:
+        return None
 
 def filter_region_by_noc(noc):
     try:
@@ -57,3 +68,10 @@ def intersection_execute(list1, list2):
         return list1
 
     return [value for value in list1 if value in list2]
+
+def create(noc, name, notes):
+    return models.Country.objects.create(
+        noc=noc,
+        name=name,
+        notes= notes
+    )
