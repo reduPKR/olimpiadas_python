@@ -231,6 +231,7 @@ def participation_athlete_submit(request):
             medal = Medal.get_by_id(medal_id)
 
             EventParticipants.create(athlete, age, game_event, medal)
+            return redirect("/athlete/view/?id={}".format(id))
         else:
             messages.error(request, "* Idade não pode estar vazia")
 

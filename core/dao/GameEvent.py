@@ -33,8 +33,7 @@ def get_all():
 def get_did_not_participate(participants):
     game_events = list(models.GameEvents.objects.all())
     new_list = diference(participants, game_events)
-
-    return sorted(new_list, key=lambda k: k.game.year)
+    return sorted(new_list, key=lambda k: (k.game.year, k.event.name))
 
 
 def diference(list1, list2):
@@ -43,7 +42,7 @@ def diference(list1, list2):
     if len(list2) == 0:
         return list1
 
-    return [value for value in list1 if value not in list2]
+    return [value for value in list2 if value not in list1]
 
 
 def get_by_id(id):
