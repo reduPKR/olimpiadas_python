@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-import core.dao.Athlete as athlete
-import core.dao.Country as country
-import core.dao.Game as game
-import core.dao.Event as event
-import core.dao.Sport as sport
-import core.dao.City as city
-import core.dao.Season as season
+import core.dao.Athlete as Athlete
+import core.dao.Country as Country
+import core.dao.Game as Game
+import core.dao.Event as Event
+import core.dao.Sport as Sport
+import core.dao.City as City
+import core.dao.Season as Season
 
 def home(request):
     data = {
@@ -26,7 +26,7 @@ def upload(request):
 def athlete_list(request):
     data = {
         'title': "Lista de atletas",
-        'athletes': athlete.list_all()
+        'athletes': Athlete.list_all()
     }
 
     return render(request, 'athlete/list.html', data)
@@ -34,12 +34,12 @@ def athlete_list(request):
 def athlete_filter(request):
     data = {
         'title': "Filtrar atletas",
-        'team': country.list_all(),
-        'game': game.list_all(),
-        'event': event.list_all(),
-        'sport': sport.list_all(),
-        'city': city.list_all(),
-        'season': season.list_all(),
+        'team': Country.list_all(),
+        'game': Game.list_all(),
+        'event': Event.list_all(),
+        'sport': Sport.list_all(),
+        'city': City.list_all(),
+        'season': Season.list_all(),
     }
 
     return render(request, 'athlete/filter.html', data)
@@ -66,7 +66,7 @@ def athlete_filter_submit(request):
 
             data = {
                 'title': "Lista de atletas",
-                'athletes': athlete.filter(name, age, height, weight, sex, team_id, game_id,
+                'athletes': Athlete.filter(name, age, height, weight, sex, team_id, game_id,
                                             event_id, sport_id, city_id, season_id, gold, silver, bronze)
             }
 
@@ -97,18 +97,63 @@ def athlete_view(request):
 
         data = {
             'title': "Visualizar atleta",
-            'athlete': athlete.get_all_info_by_id(id)
+            'athlete': Athlete.get_all_info_by_id(id)
         }
 
         return render(request, 'athlete/view.html', data)
 
     return redirect('/athlete/filter')
 
-
 def athlete_delete(request,id):
     if id:
-        if athlete.delete(id) is False:
+        if Athlete.delete(id) is False:
             messages.error(request, "Erro durante a exclusão")
         return redirect("/athlete/list/")
     else:
         messages.error(request, "Atleta nao encontrado")
+
+def create_athlete(request):
+    data = {
+        'title': "Cadastrar atleta",
+        'title_h': "Cadastro",
+        'athlete': None,
+        'team': Country.list_all(),
+        'sport': Sport.list_all(),
+    }
+
+    return render(request, 'athlete/create.html', data)
+
+def create_athlete_submit(request):
+    if request.POST:
+        name = request.POST.get("name")
+        height = request.POST.get("height")
+        weight = request.POST.get("weight")
+        sex = request.POST.get("sex")
+        team_id = request.POST.get("team_id")
+        sport_id = request.POST.get("sport_id")
+
+        if create_athlete_validate(name, height, weight):
+            athlete = Athlete.create(name, height, weight, sex, team_id, sport_id )
+
+            if athlete is None:
+                messages.error(request, "Erro no cadastro")
+            else:
+                return redirect("/athlete/create/")
+        else:
+            message_error(name, height, weight, request)
+    else:
+        messages.error(request, "Erro no post")
+
+def create_athlete_validate(name, height, weight):
+    if name != "" and height != "" and weight != "":
+        return True
+
+    return False
+
+def message_error(name, height, weight, request):
+    if name != "":
+        messages.error(request, "* Nome não pode estar vazio")
+    if height != "":
+        messages.error(request, "* Altura não pode estar vazia")
+    if weight != "":
+        messages.error(request, "* Peso não pode estar vazio")
