@@ -20,14 +20,14 @@ def get_event_by_id(event_id):
     except:
         None
 
-def get_event_by_name(event):
+def get_event_by_name(name):
     try:
-        return models.Event.objects.get(name=event)
+        return models.Event.objects.get(name=name)
     except:
         None
 
 def create(event, sport):
     return models.Event.objects.create(
-        name= event,
-        sport= sport
+        name=event,
+        sport=sport
     )
