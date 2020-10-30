@@ -92,11 +92,11 @@ Analises relacionadas ao upload e tratamento dos arquivos excel
 #### Criar/Atualizar Atleta  
 ![image](https://user-images.githubusercontent.com/56879793/97599044-59851b00-19e6-11eb-84b0-870efe216fe2.png)  
 
-#### Filtagem de atletas  
-![image](https://user-images.githubusercontent.com/56879793/97599482-d2847280-19e6-11eb-9024-bc238ec0fd9f.png)  
+#### Filtagem de atletas 
+![image](https://user-images.githubusercontent.com/56879793/97656567-836e2a00-1a46-11eb-8c3f-875b519fd7e0.png)   
 
 #### Listagem de atletas (imagem sem passar por filtragem)  
-![image](https://user-images.githubusercontent.com/56879793/97599733-0fe90000-19e7-11eb-8275-13c0b2c65bbf.png)
+![image](https://user-images.githubusercontent.com/56879793/97656746-f24b8300-1a46-11eb-8848-1f6dcd352a67.png)
 
 #### Visualizar atleta   
 ![image](https://user-images.githubusercontent.com/56879793/97599998-5a6a7c80-19e7-11eb-8b5f-d702f14b8bb2.png)  
@@ -108,7 +108,7 @@ Analises relacionadas ao upload e tratamento dos arquivos excel
 ![image](https://user-images.githubusercontent.com/56879793/97600330-b33a1500-19e7-11eb-9ef0-9c48f769164c.png)  
 
 #### Filtro de países  
-![image](https://user-images.githubusercontent.com/56879793/97600493-e1b7f000-19e7-11eb-917d-11b8a34dcfa7.png)  
+![image](https://user-images.githubusercontent.com/56879793/97656889-4e160c00-1a47-11eb-9fd7-14b85a83e2fc.png)  
 
 #### Lista de países  
 ![image](https://user-images.githubusercontent.com/56879793/97600727-204daa80-19e8-11eb-9eed-0565637de873.png)  

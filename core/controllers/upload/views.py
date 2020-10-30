@@ -109,9 +109,11 @@ def save_events(event, request):
     for item in df.iterrows():
         if not sport_not_exist(item[1]["Sport"], registered_sports):
             if event_not_exist(item[1]["Event"], registered_events):
+
                 try:
                     sport = Sport.get_sport_by_name(item[1]["Sport"])
                     Event.create(item[1]["Event"], sport)
+
                     sport = get_in_dataframe(item[1]["Sport"], "name", registered_sports)
                     registered_events = update_registered_event(registered_events, sport, item[1]["Event"])
                 except:

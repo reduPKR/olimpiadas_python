@@ -27,7 +27,7 @@ def get_event_by_name(event):
         None
 
 def create(event, sport):
-    return Event.objects.create(
+    return models.Event.objects.create(
         name= event,
         sport= sport
     )
